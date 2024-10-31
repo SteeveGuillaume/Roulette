@@ -1,0 +1,50 @@
+body{
+  margin: 0;
+}
+
+button {
+	font-family: Courier;
+	font-size: 12pt;
+	text-align: center;
+	z-index: 1;
+}
+
+.div_overlay {
+  width: 100%;
+  position: absolute;
+  display: block;
+  z-index: 99;
+  top: 60%;
+  text-align: center;
+}
+
+.textFormat{
+  color:chartreuse;
+}
+
+h2  {
+   animation-duration: 3s;
+   animation-name: clignoter;
+   animation-iteration-count: infinite;
+   transition: none;
+}
+
+@keyframes clignoter {
+  0%   { opacity:1; }
+  40%   {opacity:0; }
+  100% { opacity:1; }
+}
+
+
+.number-button-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5pt;
+  }
+
+.numberButton {
+	right: 20px;
+	top: 10px;
+  margin: 0 auto;
+}

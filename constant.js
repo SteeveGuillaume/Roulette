@@ -1,0 +1,1 @@
+const BOX_SECTION = 18;
