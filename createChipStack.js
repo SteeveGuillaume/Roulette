@@ -28,7 +28,6 @@ let chipStackList = [];
  * @param {number} axeX - La coordonnée X.
  * @param {number} axeZ - La coordonnée Z.
  * @param {array} winningPlayerList - La liste des joueurs gagnants.
- * @returns {object} Un objet représentant une pile de jetons.
  */
 function createChipStackObject(axeX, axeZ, winningPlayerList) {
 
@@ -43,7 +42,6 @@ function createChipStackObject(axeX, axeZ, winningPlayerList) {
     updateWinningPlayerList(chipStackObject, winningPlayerList);
     chipStackList.push(chipStackObject);
   }
-  return chipStackObject;
 }
 
 
@@ -53,7 +51,7 @@ function createChipStackObject(axeX, axeZ, winningPlayerList) {
  * @param {array} winningPlayerList - La liste des joueurs gagnants.
  */
 function updateWinningPlayerList(chipStackObject, winningPlayerList) {
-  const numberPlein = getRandomInt(30);
+  const numberPlein = getRandomInt(30); //MAX 30
   if (chipStackObject.posX === -HALF_BOX_SECTION) {
     winningPlayerList[0].plein += numberPlein;
     chipStackObject.number = numberPlein;
@@ -78,7 +76,21 @@ function updateWinningPlayerList(chipStackObject, winningPlayerList) {
  * @param {array} winningPlayerList - La liste des joueurs gagnants.
  */
 const updateJetons = (indices, type, chipStackObject, winningPlayerList) => {
-  const nbJetons = getRandomInt(10);
+  let nbJetons = 0;
+  switch(type){
+    case 'cheval' : 
+    nbJetons = getRandomInt(60); //MAX 60
+    break;
+    case 'transversale' : 
+    nbJetons = getRandomInt(60); //MAX 100
+    break;
+    case 'carre' : 
+    nbJetons = getRandomInt(60); //MAX 120
+    break;
+    case 'sixain' : 
+    nbJetons = getRandomInt(60); //MAX 250
+    break;
+  }
   indices.forEach(index => {
     winningPlayerList[index][type] += nbJetons;
     chipStackObject.number = nbJetons;
