@@ -11,7 +11,13 @@ const chipStackTemplate = {
   name: "",
   posX: undefined,
   posZ: undefined,
-  number: undefined
+  number: undefined,
+  halfBoxBackwardX: undefined,
+  halfBoxBackwardZ: undefined,
+  boxBackwardX: undefined,
+  boxBackwardZ: undefined,
+  boxNumber: undefined,
+  columnNumber: undefined
 };
 
 let chipStackList = [];
@@ -21,49 +27,46 @@ let chipStackList = [];
  * Met à jour la liste des joueurs gagnants en fonction des coordonnées des jetons.
  * @param {number} axeX - La coordonnée X.
  * @param {number} axeZ - La coordonnée Z.
- * @param {number} nbJetons - Le nombre de jetons.
  * @param {array} winningPlayerList - La liste des joueurs gagnants.
  * @returns {object} Un objet représentant une pile de jetons.
  */
-function createChipStackObject(axeX, axeZ, nbJetons, winningPlayerList) {
-  const chipStackObject = { ...chipStackTemplate, posX: axeX, posZ: axeZ, number: nbJetons };
-  if(axeX === (COLUMN_MAX - 1) * HALF_BOX_SECTION){ //Cas du zéro
-    chipStackObject.name = "-9-27";
-    chipStackObject.posX = -9;
-    chipStackObject.posZ = 27;
-  } else {
-    chipStackObject.name = `${axeX}-${axeZ}`;
+function createChipStackObject(axeX, axeZ, winningPlayerList) {
+
+  const chipStackObject = { ...chipStackTemplate, name: `${axeX}-${axeZ}`, posX: axeX, posZ: axeZ,
+    halfBoxBackwardX: (axeX - HALF_BOX_SECTION) / BOX_SECTION,
+    halfBoxBackwardZ: (axeZ - HALF_BOX_SECTION) / BOX_SECTION,
+    boxBackwardX: (axeX - BOX_SECTION) / BOX_SECTION,
+    boxBackwardZ: (axeZ - BOX_SECTION) / BOX_SECTION,
+    boxNumber: axeX / BOX_SECTION,
+    columnNumber: axeZ / BOX_SECTION};
+  if (!chipStackList.find(({ name }) => name === chipStackObject.name)) {
+    updateWinningPlayerList(chipStackObject, winningPlayerList);
+    chipStackList.push(chipStackObject);
   }
-  updateWinningPlayerList(axeX, axeZ, nbJetons, winningPlayerList);
   return chipStackObject;
 }
 
+
 /**
  * Met à jour la liste des joueurs gagnants en fonction des coordonnées des jetons.
- * @param {number} axeX - La coordonnée X.
- * @param {number} axeZ - La coordonnée Z.
- * @param {number} nbJetons - Le nombre de jetons.
+ * @param {object} chipStackObject - L'objet chipStack
  * @param {array} winningPlayerList - La liste des joueurs gagnants.
  */
-function updateWinningPlayerList(axeX, axeZ, nbJetons, winningPlayerList) {
-  if (axeX === (COLUMN_MAX - 1) * HALF_BOX_SECTION) {
-    winningPlayerList[0].plein += nbJetons;
+function updateWinningPlayerList(chipStackObject, winningPlayerList) {
+  const numberPlein = getRandomInt(30);
+  if (chipStackObject.posX === -HALF_BOX_SECTION) {
+    winningPlayerList[0].plein += numberPlein;
+    chipStackObject.number = numberPlein;
   } else {
-    const halfBoxBckwdX = ((axeX - HALF_BOX_SECTION) / BOX_SECTION);
-    const halfBoxBckwdZ = ((axeZ - HALF_BOX_SECTION) / BOX_SECTION);
-    const boxBckwdX = ((axeX - BOX_SECTION) / BOX_SECTION);
-    const boxBckwdZ = ((axeZ - BOX_SECTION) / BOX_SECTION);
-    const boxNumber = axeX / BOX_SECTION;
-    const columnNumber = axeZ / BOX_SECTION;
-
-    if (!Number.isInteger(boxNumber)) {
-      if (!Number.isInteger(columnNumber)) {
-        winningPlayerList[NUMBER_LIST[halfBoxBckwdZ][halfBoxBckwdX]].plein += nbJetons;
+    if (!Number.isInteger(chipStackObject.boxNumber)) {
+      if (!Number.isInteger(chipStackObject.columnNumber)) {
+        winningPlayerList[NUMBER_LIST[chipStackObject.halfBoxBackwardZ][chipStackObject.halfBoxBackwardX]].plein += numberPlein;
+        chipStackObject.number = numberPlein;
       } else {
-        updateWinningListForColumn(axeZ, nbJetons, halfBoxBckwdX, winningPlayerList);
+        updateWinningListForColumn(chipStackObject, winningPlayerList);
       }
     } else {
-      updateWinningListForBox(axeX, axeZ, nbJetons, halfBoxBckwdZ, halfBoxBckwdX, boxBckwdX, boxBckwdZ, boxNumber, columnNumber, winningPlayerList);
+      updateWinningListForBox(chipStackObject, winningPlayerList);
     }
   }
 }
@@ -71,70 +74,62 @@ function updateWinningPlayerList(axeX, axeZ, nbJetons, winningPlayerList) {
  * Met à jour les jetons pour les joueurs gagnants.
  * @param {array} indices - Les indices des joueurs.
  * @param {string} type - Le type de mise à jour (cheval, transversale, carre, sixain).
- * @param {number} nbJetons - Le nombre de jetons.
+ * @param {object} chipStackObject - L'objet chipStack
  * @param {array} winningPlayerList - La liste des joueurs gagnants.
  */
-const updateJetons = (indices, type, nbJetons, winningPlayerList) => {
+const updateJetons = (indices, type, chipStackObject, winningPlayerList) => {
+  const nbJetons = getRandomInt(10);
   indices.forEach(index => {
     winningPlayerList[index][type] += nbJetons;
+    chipStackObject.number = nbJetons;
   });
 };
 
 /**
  * Met à jour la liste des joueurs gagnants pour une colonne.
- * @param {number} axeZ - La coordonnée Z.
- * @param {number} nbJetons - Le nombre de jetons.
- * @param {number} halfBoxBckwdX - La coordonnée X ajustée.
+ * @param {object} chipStackObject - L'objet chipStack
  * @param {array} winningPlayerList - La liste des joueurs gagnants.
  */
-function updateWinningListForColumn(axeZ, nbJetons, halfBoxBckwdX, winningPlayerList) {
-  if (axeZ === 0) {
-    const transversale = NUMBER_LIST[0][halfBoxBckwdX];
-    updateJetons([transversale, transversale + 1, transversale + 2], 'transversale', nbJetons, winningPlayerList);
+function updateWinningListForColumn(chipStackObject, winningPlayerList) {
+  if (chipStackObject.posZ === 0) {
+    const transversale = NUMBER_LIST[0][chipStackObject.halfBoxBackwardX];
+    updateJetons([transversale, transversale + 1, transversale + 2], 'transversale', chipStackObject, winningPlayerList);
   } else {
-    updateJetons([NUMBER_LIST[0][halfBoxBckwdX], NUMBER_LIST[1][halfBoxBckwdX]], 'cheval', nbJetons, winningPlayerList);
+    updateJetons([NUMBER_LIST[0][chipStackObject.halfBoxBackwardX], NUMBER_LIST[1][chipStackObject.halfBoxBackwardX]], 'cheval', chipStackObject, winningPlayerList);
   }
 }
 
 /**
  * Met à jour la liste des joueurs gagnants pour une boîte.
- * @param {number} axeX - La coordonnée X.
- * @param {number} axeZ - La coordonnée Z.
- * @param {number} nbJetons - Le nombre de jetons.
- * @param {number} halfBoxBckwdZ - La coordonnée Z ajustée.
- * @param {number} halfBoxBckwdX - La coordonnée X ajustée.
- * @param {number} boxBckwdX - La coordonnée X de la boîte.
- * @param {number} boxBckwdZ - La coordonnée Z de la boîte.
- * @param {number} boxNumber - Le numéro de la boîte.
- * @param {number} columnNumber - Le numéro de la colonne.
+ * @param {object} chipStackObject - L'objet chipStack
  * @param {array} winningPlayerList - La liste des joueurs gagnants.
  */
-function updateWinningListForBox(axeX, axeZ, nbJetons, halfBoxBckwdZ, halfBoxBckwdX, boxBckwdX, boxBckwdZ, boxNumber, columnNumber, winningPlayerList) {
-  if (axeX === 0) {
-    if (!Number.isInteger(columnNumber)) {
-      updateJetons([NUMBER_LIST[halfBoxBckwdZ][0], 0], 'cheval', nbJetons, winningPlayerList);
+function updateWinningListForBox(chipStackObject, winningPlayerList) {
+  if (chipStackObject.posX === 0) {
+    if (!Number.isInteger(chipStackObject.columnNumber)) {
+      updateJetons([NUMBER_LIST[chipStackObject.halfBoxBackwardZ][0], 0], 'cheval', chipStackObject, winningPlayerList);
     } else {
-      if (axeZ !== 0) {
-        updateJetons([NUMBER_LIST[boxBckwdZ][boxNumber], NUMBER_LIST[columnNumber][boxNumber], 0], 'transversale', nbJetons, winningPlayerList);
+      if (chipStackObject.posZ !== 0) {
+        updateJetons([NUMBER_LIST[chipStackObject.boxBackwardZ][chipStackObject.boxNumber], NUMBER_LIST[chipStackObject.columnNumber][chipStackObject.boxNumber], 0], 'transversale', chipStackObject, winningPlayerList);
       } else {
-        updateJetons([NUMBER_LIST[0][0], 0], 'cheval', nbJetons, winningPlayerList);
+        updateJetons([NUMBER_LIST[0][0], 0], 'cheval', chipStackObject, winningPlayerList);
       }
     }
   } else {
-    if (!Number.isInteger(columnNumber)) {
-      updateJetons([NUMBER_LIST[halfBoxBckwdZ][boxBckwdX], NUMBER_LIST[halfBoxBckwdZ][boxNumber]], 'cheval', nbJetons, winningPlayerList);
+    if (!Number.isInteger(chipStackObject.columnNumber)) {
+      updateJetons([NUMBER_LIST[chipStackObject.halfBoxBackwardZ][chipStackObject.boxBackwardX], NUMBER_LIST[chipStackObject.halfBoxBackwardZ][chipStackObject.boxNumber]], 'cheval', chipStackObject, winningPlayerList);
     } else {
-      if (axeZ === 0) {
-        const sixainFirstLine = NUMBER_LIST[0][boxBckwdX];
+      if (chipStackObject.posZ === 0) {
+        const sixainFirstLine = NUMBER_LIST[0][chipStackObject.boxBackwardX];
         const sixainIndices = Array.from({ length: 6 }, (_, i) => i + sixainFirstLine);
-        updateJetons(sixainIndices, 'sixain', nbJetons, winningPlayerList);
+        updateJetons(sixainIndices, 'sixain', chipStackObject, winningPlayerList);
       } else {
         updateJetons([
-          NUMBER_LIST[boxBckwdZ][boxBckwdX], 
-          NUMBER_LIST[columnNumber][boxBckwdX], 
-          NUMBER_LIST[boxBckwdZ][boxNumber], 
-          NUMBER_LIST[columnNumber][boxNumber]
-        ], 'carre', nbJetons, winningPlayerList);
+          NUMBER_LIST[chipStackObject.boxBackwardZ][chipStackObject.boxBackwardX], 
+          NUMBER_LIST[chipStackObject.columnNumber][chipStackObject.boxBackwardX], 
+          NUMBER_LIST[chipStackObject.boxBackwardZ][chipStackObject.boxNumber], 
+          NUMBER_LIST[chipStackObject.columnNumber][chipStackObject.boxNumber]
+        ], 'carre', chipStackObject, winningPlayerList);
       }
     }
   }
@@ -146,18 +141,13 @@ function updateWinningListForBox(axeX, axeZ, nbJetons, halfBoxBckwdZ, halfBoxBck
 function createInitialChipStacks() {
   const randMax = getRandomInt(30);
   for (let index = 0; index < randMax; index++) {
-    const axeX = getRandomInt(COLUMN_MAX) * HALF_BOX_SECTION;
-    const axeZ = getRandomInt(6) * HALF_BOX_SECTION;
-    const nbJetons = getRandomInt(30);
-
-    if (nbJetons !== 0) {
-      const chipStackObject = createChipStackObject(axeX, axeZ, nbJetons, winningNumberList[0]);
-      const isDoublon = chipStackList.find(({ name }) => name === chipStackObject.name);
-
-      if (!isDoublon) {
-        chipStackList.push(chipStackObject);
-      }
+    let axeX = getRandomInt(COLUMN_MAX) * HALF_BOX_SECTION;
+    let axeZ = getRandomInt(6) * HALF_BOX_SECTION;
+    if(axeX === (COLUMN_MAX - 1) * HALF_BOX_SECTION){ //Cas du zéro
+      axeX = -9;
+      axeZ = 27;
     }
+    createChipStackObject(axeX, axeZ, winningNumberList[0]);
   }
 }
 
