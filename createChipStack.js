@@ -44,7 +44,6 @@ function createChipStackObject(axeX, axeZ, winningPlayerList) {
     columnNumber: axeZ / BOX_SECTION
   };
   
-  // Vérifie si la pile de jetons existe déjà, sinon l'ajoute et met à jour la liste des joueurs gagnants
   if (!chipStackList.find(({ name }) => name === chipStackObject.name)) {
     updateWinningPlayerList(chipStackObject, winningPlayerList);
     chipStackList.push(chipStackObject);
@@ -155,6 +154,19 @@ function updateWinningListForBox(chipStackObject, winningPlayerList) {
 }
 
 /**
+ * Handles the special case where axeX is at the maximum column.
+ * @param {number} axeX - The X coordinate.
+ * @param {number} axeZ - The Z coordinate.
+ * @returns {object} The adjusted coordinates.
+ */
+function handleSpecialCase(axeX, axeZ) {
+  if (axeX === (COLUMN_MAX - 1) * HALF_BOX_SECTION) {
+    return { axeX: -9, axeZ: 27 };
+  }
+  return { axeX, axeZ };
+}
+
+/**
  * Crée les piles de jetons initiales.
  */
 function createInitialChipStacks() {
@@ -162,10 +174,7 @@ function createInitialChipStacks() {
   for (let index = 0; index < randMax; index++) {
     let axeX = getRandomInt(COLUMN_MAX) * HALF_BOX_SECTION;
     let axeZ = getRandomInt(6) * HALF_BOX_SECTION;
-    if(axeX === (COLUMN_MAX - 1) * HALF_BOX_SECTION){ //Cas du zéro
-      axeX = -9;
-      axeZ = 27;
-    }
+    ({ axeX, axeZ } = handleSpecialCase(axeX, axeZ));
     createChipStackObject(axeX, axeZ, winningNumberList[0]);
   }
 }
@@ -176,10 +185,7 @@ function createInitialChipStacks() {
  * @returns {array} La liste des numéros gagnants mise à jour.
  */
 export function initializeChipStack(scene) {
-  // Initialisation des piles de jetons et gestion des doublons
-  createInitialChipStacks(scene);
-
-  // Création des quincunxes pour les piles de jetons
+  createInitialChipStacks();
   chipStackList.forEach(element => {
     createQuincunx(element.number, element.posX, element.posZ, 0, scene);
   });
