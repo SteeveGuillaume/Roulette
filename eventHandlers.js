@@ -36,8 +36,8 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
   const hideOutOfRangeChips = (boxHit) => {
     scene.traverse(node => {
       if (node instanceof Mesh && node.geometry.type === "CylinderGeometry") {
-        const xCondition = Math.abs(node.position.x - boxHit.position.x) > 12;
-        const zCondition = Math.abs(node.position.z - boxHit.position.z) > 12;
+        const xCondition = node.position.x !== 0 && Math.abs(node.position.x - boxHit.position.x) > 12;
+        const zCondition = node.position.z !== 0 && Math.abs(node.position.z - boxHit.position.z) > (boxHit.name == 'number0' ? 18 : 12);
         if (xCondition || zCondition) hideChips(node);
       }
     });
@@ -62,6 +62,7 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
       });
     }
   };
+
   // Start continuous rotation using OrbitControls
   function startRotation(e) { 
     lastMouseX = e.clientX || e.changedTouches[0].clientX; // Initialize last mouse X position
