@@ -1,4 +1,4 @@
-import { createChip } from './chipCreation.js';
+import { createPictureBets } from './chipCreation.js';
 import {
     POSITION_MAP_FRST,
     POSITION_MAP_SCND,
@@ -133,12 +133,6 @@ function populate3SidePictureBets(scene, positionMap) {
     createPictureBets(upOrDown ? PictureBetsConfig.threeSide[pictureBetsPositionList.box19] : PictureBetsConfig.threeSide[pictureBetsPositionList.box21], positionMap[upOrDown ? 'box4' : 'box6'].startX, positionMap[upOrDown ? 'box4' : 'box6'].startY, scene);
 
     return pictureBetsPositionList;
-}
-
-function createPictureBets(chipList, startX, startY, scene) {
-    chipList.forEach(chip => {
-        createChip((chip[0] * 9) + startX, 0, (chip[1] * 9) + startY, false, scene);
-    });
 }
 
 function shuffleArray(array) {

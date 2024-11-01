@@ -4,6 +4,13 @@ import { Mesh, MeshBasicMaterial } from 'three';
 import { chipMaterialGray, chipMaterialRed } from './chipTextures.js';
 import { createCylinderGeometry, DEFAULT_CHIP_ATTRIBUTE } from './chipGeometry.js';
 
+
+function createPictureBets(chipList, startX, startY, scene) {
+  chipList.forEach(chip => {
+      createChip((chip[0] * 9) + startX, 0, (chip[1] * 9) + startY, false, scene);
+  });
+}
+
 /**
  * Crée un quincunx de jetons
  * @param {number} chips - Nombre de jetons à empiler
@@ -48,7 +55,7 @@ function createQuincunx(chips, posX, posZ, currentHeight, scene) {
 function createChipAtPosition(switchColumn, posX, posZ, currentHeight, step, isGrayChip, scene) {
   const adjustedPosX = switchColumn ? (posX + step / 10) : (posX - (step + 6) / 10);
   const adjustedPosZ = isGrayChip ? posZ : (posZ - (step * 2) / 10);
-  const posY = (currentHeight * DEFAULT_CHIP_ATTRIBUTE.height) + 0.5;
+  const posY = (currentHeight * DEFAULT_CHIP_ATTRIBUTE.height) + DEFAULT_CHIP_ATTRIBUTE.height;
   createChip(adjustedPosX, posY, adjustedPosZ, isGrayChip, scene);
 }
 
@@ -91,4 +98,4 @@ function showChips(scene) {
   });
 }
 
-export { createQuincunx, createChip, hideChips, showChips };
+export { createQuincunx, createPictureBets, hideChips, showChips };
