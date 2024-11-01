@@ -40,7 +40,7 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
     scene.traverse(node => {
       if (node instanceof Mesh && node.geometry.type === "CylinderGeometry") {
         const xCondition = node.position.x !== 0 && Math.abs(node.position.x - boxHit.position.x) > CHIP_DISTANCE_THRESHOLD;
-        const zCondition = node.position.z !== 0 && Math.abs(node.position.z - boxHit.position.z) > (boxHit.name == 'number0' ? CHIP_DISTANCE_THRESHOLD_0 : CHIP_DISTANCE_THRESHOLD);
+        const zCondition = node.position.z !== 0 && Math.abs(node.position.z - boxHit.position.z) > (boxHit.name === 'number0' ? CHIP_DISTANCE_THRESHOLD_0 : CHIP_DISTANCE_THRESHOLD);
         if (xCondition || zCondition) hideChips(node);
       }
     });
@@ -79,13 +79,15 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
     }
   };
 
+  const getMouseX = (e) => e.clientX || e.changedTouches[0].clientX;
+
   const startRotation = (e) => {
-    lastMouseX = e.clientX || e.changedTouches[0].clientX;
+    lastMouseX = getMouseX(e);
   };
 
   const changeRotation = (e) => {
     dragging = true;
-    const currentMouseX = e.clientX || e.changedTouches[0].clientX;
+    const currentMouseX = getMouseX(e);
     const deltaX = currentMouseX - lastMouseX;
     checkDirection(currentMouseX);
     lastMouseX = currentMouseX;
