@@ -4,6 +4,7 @@ import { initializeNumberList, NUMBER_LIST} from './winningNumberList.js';
 const BOX_SECTION = 18;
 const HALF_BOX_SECTION = 9;
 const COLUMN_MAX = 9;
+const CHIP_MAX = 10;
 
 const winningNumberList = initializeNumberList();
 
@@ -79,16 +80,16 @@ const updateJetons = (indices, type, chipStackObject, winningPlayerList) => {
   let nbJetons = 0;
   switch(type){
     case 'cheval' : 
-    nbJetons = getRandomInt(60); //MAX 60
+    nbJetons = getRandomInt(CHIP_MAX); //MAX 60
     break;
     case 'transversale' : 
-    nbJetons = getRandomInt(60); //MAX 100
+    nbJetons = getRandomInt(CHIP_MAX); //MAX 100
     break;
     case 'carre' : 
-    nbJetons = getRandomInt(60); //MAX 120
+    nbJetons = getRandomInt(CHIP_MAX); //MAX 120
     break;
     case 'sixain' : 
-    nbJetons = getRandomInt(60); //MAX 250
+    nbJetons = getRandomInt(CHIP_MAX); //MAX 250
     break;
   }
   indices.forEach(index => {
