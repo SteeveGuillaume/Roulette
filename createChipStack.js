@@ -1,5 +1,5 @@
-import { createQuincunx} from './chipCreation.js';
-import { initializeNumberList, NUMBER_LIST} from './winningNumberList.js';
+import { createQuincunx } from './chipCreation.js';
+import { initializeNumberList, NUMBER_LIST } from './winningNumberList.js';
 
 const BOX_SECTION = 18;
 const HALF_BOX_SECTION = 9;
@@ -31,20 +31,25 @@ let chipStackList = [];
  * @param {array} winningPlayerList - La liste des joueurs gagnants.
  */
 function createChipStackObject(axeX, axeZ, winningPlayerList) {
-
-  const chipStackObject = { ...chipStackTemplate, name: `${axeX}-${axeZ}`, posX: axeX, posZ: axeZ,
+  const chipStackObject = { 
+    ...chipStackTemplate, 
+    name: `${axeX}-${axeZ}`, 
+    posX: axeX, 
+    posZ: axeZ,
     halfBoxBackwardX: (axeX - HALF_BOX_SECTION) / BOX_SECTION,
     halfBoxBackwardZ: (axeZ - HALF_BOX_SECTION) / BOX_SECTION,
     boxBackwardX: (axeX - BOX_SECTION) / BOX_SECTION,
     boxBackwardZ: (axeZ - BOX_SECTION) / BOX_SECTION,
     boxNumber: axeX / BOX_SECTION,
-    columnNumber: axeZ / BOX_SECTION};
+    columnNumber: axeZ / BOX_SECTION
+  };
+  
+  // Vérifie si la pile de jetons existe déjà, sinon l'ajoute et met à jour la liste des joueurs gagnants
   if (!chipStackList.find(({ name }) => name === chipStackObject.name)) {
     updateWinningPlayerList(chipStackObject, winningPlayerList);
     chipStackList.push(chipStackObject);
   }
 }
-
 
 /**
  * Met à jour la liste des joueurs gagnants en fonction des coordonnées des jetons.
@@ -69,6 +74,7 @@ function updateWinningPlayerList(chipStackObject, winningPlayerList) {
     }
   }
 }
+
 /**
  * Met à jour les jetons pour les joueurs gagnants.
  * @param {array} indices - Les indices des joueurs.
@@ -80,17 +86,17 @@ const updateJetons = (indices, type, chipStackObject, winningPlayerList) => {
   let nbJetons = 0;
   switch(type){
     case 'cheval' : 
-    nbJetons = getRandomInt(CHIP_MAX); //MAX 60
-    break;
+      nbJetons = getRandomInt(CHIP_MAX); //MAX 60
+      break;
     case 'transversale' : 
-    nbJetons = getRandomInt(CHIP_MAX); //MAX 100
-    break;
+      nbJetons = getRandomInt(CHIP_MAX); //MAX 100
+      break;
     case 'carre' : 
-    nbJetons = getRandomInt(CHIP_MAX); //MAX 120
-    break;
+      nbJetons = getRandomInt(CHIP_MAX); //MAX 120
+      break;
     case 'sixain' : 
-    nbJetons = getRandomInt(CHIP_MAX); //MAX 250
-    break;
+      nbJetons = getRandomInt(CHIP_MAX); //MAX 250
+      break;
   }
   indices.forEach(index => {
     winningPlayerList[index][type] += nbJetons;
@@ -164,15 +170,20 @@ function createInitialChipStacks() {
   }
 }
 
+/**
+ * Initialise les piles de jetons et crée les quincunxes.
+ * @param {object} scene - La scène Three.js.
+ * @returns {array} La liste des numéros gagnants mise à jour.
+ */
 export function initializeChipStack(scene) {
-    // Initialisation des piles de jetons et gestion des doublons
-    createInitialChipStacks(scene);
+  // Initialisation des piles de jetons et gestion des doublons
+  createInitialChipStacks(scene);
 
-    // Création des quincunxes pour les piles de jetons
-    chipStackList.forEach(element => {
+  // Création des quincunxes pour les piles de jetons
+  chipStackList.forEach(element => {
     createQuincunx(element.number, element.posX, element.posZ, 0, scene);
-    });
-    return winningNumberList;
+  });
+  return winningNumberList;
 }
 
 /**
