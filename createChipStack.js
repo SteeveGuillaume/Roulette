@@ -185,6 +185,7 @@ function createInitialChipStacks(winningNumberList) {
  * @returns {array} La liste des numéros gagnants mise à jour.
  */
 export function initializeChipStack(scene) {
+  clearChipStack(scene);
   winningNumberList = initializeNumberList();
   createInitialChipStacks(winningNumberList);
   createQuincunx(chipStackList, 0, scene);

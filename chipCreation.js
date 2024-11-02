@@ -5,10 +5,12 @@ import { chipMaterialGray, chipMaterialRed } from './chipTextures.js';
 import { createCylinderGeometry, DEFAULT_CHIP_ATTRIBUTE } from './chipGeometry.js';
 
 let currentChipStackList = [];
+let currentPictureBetsList = [];
 
 function createPictureBets(chipList, startX, startY, scene) {
   chipList.forEach(chip => {
-      createChip((chip[0] * 9) + startX, 0, (chip[1] * 9) + startY, false, scene);
+    let pictureBet = createChip((chip[0] * 9) + startX, 0, (chip[1] * 9) + startY, false, scene);
+    currentPictureBetsList.push(pictureBet);
   });
 }
 
@@ -114,4 +116,16 @@ function clearChipStackList(scene) {
   currentChipStackList = [];
 }
 
-export { createQuincunx, createPictureBets, hideChips, showChips, clearChipStackList };
+/**
+ * Nettoie la liste des jetons en les supprimant de la scène
+ * @param {object} scene - La scène Three.js
+ */
+function clearPictureBets(scene) {
+  for (let chip of currentPictureBetsList) {
+      scene.remove(chip); // Enlever le jeton de la scène
+  }
+  // Vider le tableau des jetons créés
+  currentPictureBetsList = [];
+}
+
+export { createQuincunx, createPictureBets, hideChips, showChips, clearChipStackList, clearPictureBets };

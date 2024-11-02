@@ -1,4 +1,4 @@
-import { createPictureBets } from './chipCreation.js';
+import { createPictureBets, clearPictureBets } from './chipCreation.js';
 import {
     POSITION_MAP_FRST,
     POSITION_MAP_SCND,
@@ -143,6 +143,7 @@ function shuffleArray(array) {
 }
 
 export function populatePictureBets(scene) {
+    clearPictureBets(scene);
     const group = Math.random() < 0.33 ? 'oneSide' : (Math.random() < 0.5 ? 'twoSide' : 'threeSide');
     return populatePictureBetsByGroup(group, scene, POSITION_MAP_SCND);
 }
