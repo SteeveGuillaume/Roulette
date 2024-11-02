@@ -151,6 +151,10 @@ document.addEventListener('DOMContentLoaded', () => {
     updateWiningNumberList(winningNumberList);
   });
 
-  //document.addEventListener('touchmove', e => { e.preventDefault(); }, { passive:false }); //prevent page scrolling on touchmove
+  document.addEventListener('touchmove', e => {
+    if (!e.target.closest('.slider-item input[type="range"]')) {
+        e.preventDefault();
+    }
+  }, { passive: false }); // prevent page scrolling on touchmove
 });
 
