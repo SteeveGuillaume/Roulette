@@ -1,10 +1,9 @@
 import { createQuincunx, clearChipStackList } from './chipCreation.js';
 import { initializeNumberList, NUMBER_LIST } from './winningNumberList.js';
+import { sliderValues } from './sliderValues.js';
 
 const BOX_SECTION = 18;
 const HALF_BOX_SECTION = 9;
-const COLUMN_MAX = 9;
-const CHIP_MAX = 10;
 
 
 const chipStackTemplate = {
@@ -56,7 +55,7 @@ function createChipStackObject(axeX, axeZ, winningPlayerList) {
  * @param {array} winningPlayerList - La liste des joueurs gagnants.
  */
 function updateWinningPlayerList(chipStackObject, winningPlayerList) {
-  const numberPlein = getRandomInt(30); //MAX 30
+  const numberPlein = getRandomInt(sliderValues.plein);
   if (chipStackObject.posX === -HALF_BOX_SECTION) {
     winningPlayerList[0].plein += numberPlein;
     chipStackObject.number = numberPlein;
@@ -82,25 +81,14 @@ function updateWinningPlayerList(chipStackObject, winningPlayerList) {
  * @param {array} winningPlayerList - La liste des joueurs gagnants.
  */
 const updateJetons = (indices, type, chipStackObject, winningPlayerList) => {
-  let nbJetons = 0;
-  switch(type){
-    case 'cheval' : 
-      nbJetons = getRandomInt(CHIP_MAX); //MAX 60
-      break;
-    case 'transversale' : 
-      nbJetons = getRandomInt(CHIP_MAX); //MAX 100
-      break;
-    case 'carre' : 
-      nbJetons = getRandomInt(CHIP_MAX); //MAX 120
-      break;
-    case 'sixain' : 
-      nbJetons = getRandomInt(CHIP_MAX); //MAX 250
-      break;
-  }
-  indices.forEach(index => {
-    winningPlayerList[index][type] += nbJetons;
-    chipStackObject.number = nbJetons;
-  });
+    // Utiliser la valeur de sliderValues directement en fonction du type
+    const nbJetons = getRandomInt(sliderValues[type]);
+
+    // Utiliser forEach pour mettre à jour les valeurs
+    indices.forEach(index => {
+      winningPlayerList[index][type] += nbJetons;
+      chipStackObject.number = nbJetons;
+    });
 };
 
 /**
@@ -160,7 +148,7 @@ function updateWinningListForBox(chipStackObject, winningPlayerList) {
  * @returns {object} The adjusted coordinates.
  */
 function handleSpecialCase(axeX, axeZ) {
-  if (axeX === (COLUMN_MAX - 1) * HALF_BOX_SECTION) {
+  if (axeX === (sliderValues.nbColumn - 1) * HALF_BOX_SECTION) {
     return { axeX: -9, axeZ: 27 };
   }
   return { axeX, axeZ };
@@ -172,7 +160,7 @@ function handleSpecialCase(axeX, axeZ) {
 function createInitialChipStacks(winningNumberList) {
   const randMax = getRandomInt(30);
   for (let index = 0; index < randMax; index++) {
-    let axeX = getRandomInt(COLUMN_MAX) * HALF_BOX_SECTION;
+    let axeX = getRandomInt(sliderValues.nbColumn) * HALF_BOX_SECTION;
     let axeZ = getRandomInt(6) * HALF_BOX_SECTION;
     ({ axeX, axeZ } = handleSpecialCase(axeX, axeZ));
     createChipStackObject(axeX, axeZ, winningNumberList[0]);
@@ -196,7 +184,7 @@ export function initializeChipStack(scene) {
  * Réinitialise les piles de jetons et crée les quincunxes.
  * @param {object} scene - La scène Three.js.
  */
-export function clearChipStack(scene){
+function clearChipStack(scene){
   clearChipStackList(scene);
   chipStackList = [];
   winningNumberList = [];

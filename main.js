@@ -138,23 +138,19 @@ function refresh() {
 }
 refresh(); // Start the animation loop
 
-
 document.addEventListener('DOMContentLoaded', () => {
-  const refreshButton = document.getElementById('refreshButton');
   refreshButton.addEventListener('click', () => {
     winningNumberList = initializeChipStack(scene); // Initialize chip stack
     updateWiningNumberList(winningNumberList);
     populatePictureBets(scene); // Populate picture bets
   });
 
-  settingsButton.addEventListener('click', () => {
-    settingsDialog.showModal();
+  // Listen for the custom event dispatched from dialogHandlers.js
+  document.addEventListener('settingsSubmitted', (event) => {
+    winningNumberList = initializeChipStack(scene); // Initialize chip stack
+    updateWiningNumberList(winningNumberList);
   });
 
-  cancelButton.addEventListener('click', () => {
-    settingsDialog.close();
-  });
-
-document.addEventListener('touchmove', e => { e.preventDefault(); }, { passive:false }); //prevent page scrolling on touchmove
+  document.addEventListener('touchmove', e => { e.preventDefault(); }, { passive:false }); //prevent page scrolling on touchmove
 });
 
