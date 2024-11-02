@@ -70,3 +70,66 @@ h2 {
   top: 10px;
   margin: 0 auto;
 }
+
+/* Settings Button */
+.settings-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  font-size: 24px;
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 100;
+}
+
+/* Refresh Button */
+.refresh-button {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  font-size: 24px;
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 100;
+}
+
+/* Spin Button */
+.spin-button {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 24px;
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 100;
+}
+
+/* Hide spin button on larger screens */
+@media (min-width: 768px) {
+  .spin-button {
+    display: none;
+  }
+}
+
+/* Dialog */
+dialog {
+  border: none;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 200;
+}

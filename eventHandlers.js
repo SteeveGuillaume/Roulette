@@ -109,13 +109,33 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
     if (currentMouseX > lastMouseX && controls.autoRotateSpeed < 0) controls.autoRotateSpeed *= -1;
   };
 
-  rotateButton.addEventListener("touchstart", startRotation);
-  rotateButton.addEventListener("touchmove", changeRotation);
-
   controls.addEventListener('start', handleControlStart);
   controls.addEventListener('change', handleControlChange);
   controls.addEventListener('end', handleControlEnd);
 
   window.addEventListener('click', onClickZ);
-  document.getElementById("refreshButton").addEventListener("click", () => location.reload(), false);
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const settingsButton = document.getElementById('settingsButton');
+    const settingsDialog = document.getElementById('settingsDialog');
+    const cancelButton = document.getElementById('cancelButton');
+    const refreshButton = document.getElementById('refreshButton');
+  
+    settingsButton.addEventListener('click', () => {
+      settingsDialog.showModal();
+    });
+  
+    cancelButton.addEventListener('click', () => {
+      settingsDialog.close();
+    });
+  
+    refreshButton.addEventListener('click', () => {
+      location.reload();
+    });
+
+    rotateButton.addEventListener("touchstart", startRotation);
+    rotateButton.addEventListener("touchmove", changeRotation);
+    
+  });
+
 }
