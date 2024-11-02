@@ -1,15 +1,33 @@
-body{
+/* CSS Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Variables */
+:root {
+  --font-family: 'Courier', monospace;
+  --font-size: 12pt;
+  --primary-color: chartreuse;
+  --animation-duration: 3s;
+}
+
+/* Body */
+body {
   margin: 0;
 }
 
+/* Button */
 button {
-	font-family: Courier;
-	font-size: 12pt;
-	text-align: center;
-	z-index: 1;
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  text-align: center;
+  z-index: 1;
 }
 
-.div_overlay {
+/* Overlay */
+.div-overlay {
   width: 100%;
   position: absolute;
   display: block;
@@ -18,33 +36,37 @@ button {
   text-align: center;
 }
 
-.textFormat{
-  color:chartreuse;
+/* Text Format */
+.text-format {
+  color: var(--primary-color);
 }
 
-h2  {
-   animation-duration: 3s;
-   animation-name: clignoter;
-   animation-iteration-count: infinite;
-   transition: none;
+/* Heading */
+h2 {
+  animation-duration: var(--animation-duration);
+  animation-name: clignoter;
+  animation-iteration-count: infinite;
+  transition: none;
 }
 
+/* Keyframes */
 @keyframes clignoter {
-  0%   { opacity:1; }
-  40%   {opacity:0; }
-  100% { opacity:1; }
+  0% { opacity: 1; }
+  40% { opacity: 0; }
+  100% { opacity: 1; }
 }
 
-
+/* Number Button Container */
 .number-button-container {
   width: 100%;
   display: flex;
   justify-content: center;
   margin-bottom: 5pt;
-  }
+}
 
-.numberButton {
-	right: 20px;
-	top: 10px;
+/* Number Button */
+.number-button {
+  right: 20px;
+  top: 10px;
   margin: 0 auto;
 }

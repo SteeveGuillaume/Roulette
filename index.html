@@ -2,9 +2,12 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Roulette App" />
+    <meta name="keywords" content="Roulette, Game, Spin" />
+    <meta name="author" content="Your Name" />
     <title>Roulette App</title>
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-TBERV35RDP"></script>
     <script>
@@ -15,32 +18,12 @@
     </script>
   </head>
   <body>
-    <div class="div_overlay">
+    <div class="div-overlay">
       <div class="number-button-container">
-        <button id="rotateButton" class="numberButton">Spin</button>
+        <button id="rotateButton" class="number-button" aria-label="Spin the roulette">Spin</button>
       </div>
-      <!-- 
-      <div class="number-button-container">
-        <button id="number3" class="numberButton">3</button>
-        <button id="number6" class="numberButton">6</button>
-        <button id="number9" class="numberButton">9</button>
-        <button id="number12" class="numberButton">12</button>
-      </div>
-      <div class="number-button-container">
-        <button id="number2" class="numberButton">2</button>
-        <button id="number5" class="numberButton">5</button>
-        <button id="number8" class="numberButton">8</button>
-        <button id="number11" class="numberButton">11</button>
-      </div>
-      <div class="number-button-container">
-        <button id="number1" class="numberButton">1</button>
-        <button id="number4" class="numberButton">4</button>
-        <button id="number7" class="numberButton">7</button>
-        <button id="number10" class="numberButton">10</button>
-      </div> 
-      -->
-      <h4 id = "displayText" class="textFormat"></h4>
-      <button id="refreshButton" class="numberButton">Refresh</button>
+      <button id="refreshButton" class="number-button" aria-label="Refresh the page">Refresh</button>
+      <h4 id="displayText" class="text-format"></h4>
     </div>
     <script type="module" src="/main.js"></script>
   </body>
