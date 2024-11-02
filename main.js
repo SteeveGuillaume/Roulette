@@ -76,50 +76,50 @@ try {
   displayError(errorMessage); // Display error message to the user
 }
 
-//try {
+try {
   initializeBoxes(scene); // Initialize boxes and add them to the scene
   
   //setBlinkingBoxes(scene, ['number5', 'number10', 'number15']); // Exemple de boîtes à faire clignoter
 
-/*} catch (error) {
+} catch (error) {
   const errorMessage = 'Error initializing boxes: ' + error.message;
   console.error(errorMessage);
   displayError(errorMessage); // Display error message to the user
-}*/
+}
 
-//try {
+try {
   initializeMainPlane(scene); // Initialize the main plane
-/*} catch (error) {
+} catch (error) {
   const errorMessage = 'Error initializing main plane: ' + error.message;
   console.error(errorMessage);
   displayError(errorMessage); // Display error message to the user
-}*/
+}
 
 let winningNumberList;
-//try {
+try {
     winningNumberList = initializeChipStack(scene); // Initialize chip stack
-/*} catch (error) {
+} catch (error) {
     const errorMessage = 'Error initializing chip stack: ' + error.message;
     console.error(errorMessage);
     displayError(errorMessage); // Display error message to the user
-}*/
+}
 
 let pbPositionList;
-//try {
+try {
 pbPositionList = populatePictureBets(scene); // Populate picture bets
-/*} catch (error) {
+} catch (error) {
     const errorMessage = 'Error populating picture bets: ' + error.message;
     console.error(errorMessage);
     displayError(errorMessage); // Display error message to the user
-}*/
+}
 
-//try {
+try {
   initializeEventHandlers(scene, camera, controls, winningNumberList, pbPositionList); // Initialize event handlers
-/*} catch (error) {
+} catch (error) {
   const errorMessage = 'Error initializing event handlers: ' + error.message;
   console.error(errorMessage);
   displayError(errorMessage); // Display error message to the user
-}*/
+}
 
 // Animation loop
 function refresh() {
