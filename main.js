@@ -122,13 +122,13 @@ try {
   displayError(errorMessage); // Display error message to the user
 }
 
-try {
+//try {
   initializeDialogHandlers(); // Initialize dialog handlers
-} catch (error) {
+/*} catch (error) {
   const errorMessage = 'Error initializing dialog handlers: ' + error.message;
   console.error(errorMessage);
   displayError(errorMessage); // Display error message to the user
-}
+}*/
 
 // Animation loop
 function refresh() {
@@ -151,6 +151,6 @@ document.addEventListener('DOMContentLoaded', () => {
     updateWiningNumberList(winningNumberList);
   });
 
-  document.addEventListener('touchmove', e => { e.preventDefault(); }, { passive:false }); //prevent page scrolling on touchmove
+  //document.addEventListener('touchmove', e => { e.preventDefault(); }, { passive:false }); //prevent page scrolling on touchmove
 });
 

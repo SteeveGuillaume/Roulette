@@ -29,16 +29,18 @@ button {
 /* Overlay */
 .div-overlay {
   width: 100%;
-  position: absolute;
-  display: block;
-  z-index: 99;
-  top: 60%;
+  position: fixed;
+  bottom: 80px; /* Position un peu plus haut que le bouton Spin */
   text-align: center;
+  z-index: 99;
 }
 
 /* Text Format */
 .text-format {
   color: var(--primary-color);
+  max-width: 80%; /* Limiter la largeur */
+  margin: 0 auto; /* Centrer horizontalement */
+  word-wrap: break-word; /* Permettre le retour à la ligne si nécessaire */
 }
 
 /* Settings Button */

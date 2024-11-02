@@ -21,10 +21,14 @@ export function initializeDialogHandlers() {
         const valueSpan = document.getElementById(`${slider.id}Value`);
         valueSpan.textContent = slider.value; // Initialize with the current value
 
-        slider.addEventListener('input', (event) => {
+        const updateSliderValue = (event) => {
             valueSpan.textContent = event.target.value;
             sliderValues[slider.id] = event.target.value; // Update the corresponding value in sliderValues
-        });
+        };
+
+        slider.addEventListener('input', updateSliderValue);
+        //slider.addEventListener('touchstart', updateSliderValue);
+        //slider.addEventListener('touchmove', updateSliderValue);
     });
 
     // Add event listener for the submit button
