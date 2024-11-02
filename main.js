@@ -4,9 +4,9 @@ import './style.css';
 import { initializeLights } from './lights.js';
 import { initializeCamera } from './camera.js';
 import { initializeRenderer } from './renderer.js';
-import { initializeChipStack } from './createChipStack.js';
+import { initializeChipStack, clearChipStack } from './createChipStack.js';
 import { initializeOrbitControls } from './orbitControls.js';
-import { initializeEventHandlers } from './eventHandlers.js';
+import { initializeEventHandlers, updateWiningNumberList } from './eventHandlers.js';
 import { initializeMainPlane } from './plane.js';
 import { initializeBoxes } from './boxes.js';
 import { populatePictureBets } from './pictureBets.js';
@@ -138,4 +138,23 @@ function refresh() {
 }
 refresh(); // Start the animation loop
 
-document.addEventListener('touchmove', e => { e.preventDefault(); }, { passive:false }); //prevent page scrolling
+
+document.addEventListener('DOMContentLoaded', () => {
+  const refreshButton = document.getElementById('refreshButton');
+  refreshButton.addEventListener('click', () => {
+    clearChipStack(scene); // Clear chip stack
+    winningNumberList = initializeChipStack(scene); // Initialize chip stack
+    updateWiningNumberList(winningNumberList);
+  });
+
+  settingsButton.addEventListener('click', () => {
+    settingsDialog.showModal();
+  });
+
+  cancelButton.addEventListener('click', () => {
+    settingsDialog.close();
+  });
+
+document.addEventListener('touchmove', e => { e.preventDefault(); }, { passive:false }); //prevent page scrolling on touchmove
+});
+

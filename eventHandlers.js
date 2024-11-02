@@ -13,7 +13,15 @@ const POSITION_MAP = {
   "23": { x: (BOX_SECTION * 8) - 9, z: (BOX_SECTION * -2) - (BOX_SECTION / -2) }
 };
 
+let currentWinningNumberList = [];
+
+export function updateWiningNumberList(winningNumberList) {
+  currentWinningNumberList = [];
+  currentWinningNumberList = winningNumberList;
+}
+
 export function initializeEventHandlers(scene, camera, controls, winningNumberList, pbPositionList) {
+  currentWinningNumberList = winningNumberList;
   const raycaster = new Raycaster();
   const pointer = new Vector2();
   let dragging = false;
@@ -60,7 +68,7 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
   const handleRaycastIntersections = (intersections) => {
     intersections.forEach(intersect => {
       if (isPlaneGeometry(intersect.object)) {
-        displayText.innerHTML = winningNumberList[0][intersect.object.name.slice(6)].getText();
+        displayText.innerHTML = currentWinningNumberList[0][intersect.object.name.slice(6)].getText();
         checkSpecialPositions(intersect.object);
         hideOutOfRangeChips(intersect.object);
       }
@@ -109,30 +117,15 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
     if (currentMouseX > lastMouseX && controls.autoRotateSpeed < 0) controls.autoRotateSpeed *= -1;
   };
 
-  controls.addEventListener('start', handleControlStart);
-  controls.addEventListener('change', handleControlChange);
-  controls.addEventListener('end', handleControlEnd);
-
-  window.addEventListener('click', onClickZ);
-
   document.addEventListener('DOMContentLoaded', () => {
-    const refreshButton = document.getElementById('refreshButton');
+    controls.addEventListener('start', handleControlStart);
+    controls.addEventListener('change', handleControlChange);
+    controls.addEventListener('end', handleControlEnd);
   
-    settingsButton.addEventListener('click', () => {
-      settingsDialog.showModal();
-    });
-  
-    cancelButton.addEventListener('click', () => {
-      settingsDialog.close();
-    });
-  
-    refreshButton.addEventListener('click', () => {
-      location.reload();
-    });
+    window.addEventListener('click', onClickZ);
 
-  rotateButton.addEventListener("touchstart", startRotation);
-  rotateButton.addEventListener("touchmove", changeRotation);
-    
+    rotateButton.addEventListener("touchstart", startRotation);
+    rotateButton.addEventListener("touchmove", changeRotation);
   });
 
 }

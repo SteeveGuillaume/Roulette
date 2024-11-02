@@ -4,6 +4,7 @@ import { Mesh, MeshBasicMaterial } from 'three';
 import { chipMaterialGray, chipMaterialRed } from './chipTextures.js';
 import { createCylinderGeometry, DEFAULT_CHIP_ATTRIBUTE } from './chipGeometry.js';
 
+let currentChipStackList = [];
 
 function createPictureBets(chipList, startX, startY, scene) {
   chipList.forEach(chip => {
@@ -13,33 +14,34 @@ function createPictureBets(chipList, startX, startY, scene) {
 
 /**
  * Crée un quincunx de jetons
- * @param {number} chips - Nombre de jetons à empiler
- * @param {number} posX - Position X initiale
- * @param {number} posZ - Position Z initiale
+ * @param {array} chipStackList - Liste des piles de jetons
  * @param {number} currentHeight - Hauteur actuelle de la pile
  * @param {object} scene - La scène Three.js
- * @returns {number} - Nouvelle hauteur après avoir empilé les jetons
  */
-function createQuincunx(chips, posX, posZ, currentHeight, scene) {
-  const isGrayChip = currentHeight === 0;
-  const nbColumns = Math.floor(chips / 5);
-  const totalHeight = chips + currentHeight;
-  let step = 3;
-  let switchColumn = false;
+function createQuincunx(chipStackList, initialHeight, scene) {
+  chipStackList.forEach(chipStack => {
+    const { posX, posZ, number } = chipStack;
+    let currentHeight = initialHeight;
+    const isGrayChip = currentHeight === 0;
+    const nbColumns = Math.floor(number / 5);
+    const totalHeight = number + currentHeight;
+    let step = 3;
+    let switchColumn = false;
 
-  for (let i = 0; i < nbColumns * 5; i++) {
-    if (i % 5 === 0) switchColumn = !switchColumn;
-    createChipAtPosition(switchColumn, posX, posZ, currentHeight, step, isGrayChip, scene);
-    currentHeight++;
-  }
+    for (let i = 0; i < nbColumns * 5; i++) {
+      if (i % 5 === 0) switchColumn = !switchColumn;
+      createChipAtPosition(switchColumn, posX, posZ, currentHeight, step, isGrayChip, scene);
+      currentHeight++;
+    }
 
-  while (currentHeight < totalHeight) {
-    createChipAtPosition(switchColumn, posX, posZ, currentHeight, step, isGrayChip, scene);
-    currentHeight++;
-    step += 3;
-  }
+    while (currentHeight < totalHeight) {
+      createChipAtPosition(switchColumn, posX, posZ, currentHeight, step, isGrayChip, scene);
+      currentHeight++;
+      step += 3;
+    }
+  });
 
-  return currentHeight;
+  return initialHeight;
 }
 
 /**
@@ -56,7 +58,8 @@ function createChipAtPosition(switchColumn, posX, posZ, currentHeight, step, isG
   const adjustedPosX = switchColumn ? (posX + step / 10) : (posX - (step + 6) / 10);
   const adjustedPosZ = isGrayChip ? posZ : (posZ - (step * 2) / 10);
   const posY = (currentHeight * DEFAULT_CHIP_ATTRIBUTE.height) + DEFAULT_CHIP_ATTRIBUTE.height;
-  createChip(adjustedPosX, posY, adjustedPosZ, isGrayChip, scene);
+  let chip = createChip(adjustedPosX, posY, adjustedPosZ, isGrayChip, scene);
+  currentChipStackList.push(chip);
 }
 
 /**
@@ -73,6 +76,7 @@ function createChip(posX, posY, posZ, isGray, scene) {
   chip.name = `chip-${posZ}/${posX}/${posY}/${isGray}`;
   chip.position.set(posX, posY, -posZ);
   scene.add(chip);
+  return chip;
 }
 
 /**
@@ -98,4 +102,16 @@ function showChips(scene) {
   });
 }
 
-export { createQuincunx, createPictureBets, hideChips, showChips };
+/**
+ * Nettoie la liste des jetons en les supprimant de la scène
+ * @param {object} scene - La scène Three.js
+ */
+function clearChipStackList(scene) {
+  for (let chip of currentChipStackList) {
+      scene.remove(chip); // Enlever le jeton de la scène
+  }
+  // Vider le tableau des jetons créés
+  currentChipStackList = [];
+}
+
+export { createQuincunx, createPictureBets, hideChips, showChips, clearChipStackList };

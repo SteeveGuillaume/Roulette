@@ -1,4 +1,4 @@
-import { createQuincunx } from './chipCreation.js';
+import { createQuincunx, clearChipStackList } from './chipCreation.js';
 import { initializeNumberList, NUMBER_LIST } from './winningNumberList.js';
 
 const BOX_SECTION = 18;
@@ -6,7 +6,6 @@ const HALF_BOX_SECTION = 9;
 const COLUMN_MAX = 9;
 const CHIP_MAX = 10;
 
-const winningNumberList = initializeNumberList();
 
 const chipStackTemplate = {
   name: "",
@@ -22,6 +21,7 @@ const chipStackTemplate = {
 };
 
 let chipStackList = [];
+let winningNumberList = [];
 
 /**
  * Crée un objet représentant une pile de jetons avec ses coordonnées et le nombre de jetons.
@@ -169,7 +169,7 @@ function handleSpecialCase(axeX, axeZ) {
 /**
  * Crée les piles de jetons initiales.
  */
-function createInitialChipStacks() {
+function createInitialChipStacks(winningNumberList) {
   const randMax = getRandomInt(30);
   for (let index = 0; index < randMax; index++) {
     let axeX = getRandomInt(COLUMN_MAX) * HALF_BOX_SECTION;
@@ -185,12 +185,22 @@ function createInitialChipStacks() {
  * @returns {array} La liste des numéros gagnants mise à jour.
  */
 export function initializeChipStack(scene) {
-  createInitialChipStacks();
-  chipStackList.forEach(element => {
-    createQuincunx(element.number, element.posX, element.posZ, 0, scene);
-  });
+  winningNumberList = initializeNumberList();
+  createInitialChipStacks(winningNumberList);
+  createQuincunx(chipStackList, 0, scene);
   return winningNumberList;
 }
+
+/**
+ * Réinitialise les piles de jetons et crée les quincunxes.
+ * @param {object} scene - La scène Three.js.
+ */
+export function clearChipStack(scene){
+  clearChipStackList(scene);
+  chipStackList = [];
+  winningNumberList = [];
+}
+
 
 /**
  * Renvoie un entier aléatoire compris entre 0 et max-1.

@@ -35,12 +35,13 @@ function createWinningNumber(number) {
   };
 }
 
-// Liste des numéros gagnants pour différents joueurs
-const winningNumberList = Array.from({ length: 3 }, () =>
-  Array.from({ length: 37 }, (_, index) => createWinningNumber(index))
-);
 
-export function initializeNumberList() { return winningNumberList; }
+export function initializeNumberList() { 
+  // Liste des numéros gagnants pour différents joueurs
+  return Array.from({ length: 3 }, () =>
+    Array.from({ length: 37 }, (_, index) => createWinningNumber(index))
+  );
+}
 
 export const NUMBER_LIST = {
   0: [1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34],
