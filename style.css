@@ -41,36 +41,6 @@ button {
   color: var(--primary-color);
 }
 
-/* Heading */
-h2 {
-  animation-duration: var(--animation-duration);
-  animation-name: clignoter;
-  animation-iteration-count: infinite;
-  transition: none;
-}
-
-/* Keyframes */
-@keyframes clignoter {
-  0% { opacity: 1; }
-  40% { opacity: 0; }
-  100% { opacity: 1; }
-}
-
-/* Number Button Container */
-.number-button-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-bottom: 5pt;
-}
-
-/* Number Button */
-.number-button {
-  right: 20px;
-  top: 10px;
-  margin: 0 auto;
-}
-
 /* Settings Button */
 .settings-button {
   position: fixed;
@@ -132,4 +102,39 @@ dialog {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 200;
+  width: 80%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.slider-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.slider-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.slider-item label {
+  flex: 2; /* Increase space for the label */
+  text-align: left;
+}
+
+.slider-item input[type="range"] {
+  flex: 3; /* Adjust space for the range input */
+  margin-left: 10px;
+}
+
+.slider-item span {
+  flex: 1;
+  text-align: right;
+  margin-left: 10px;
 }

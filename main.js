@@ -10,6 +10,7 @@ import { initializeEventHandlers } from './eventHandlers.js';
 import { initializeMainPlane } from './plane.js';
 import { initializeBoxes } from './boxes.js';
 import { populatePictureBets } from './pictureBets.js';
+import { initializeDialogHandlers } from './dialogHandlers.js';
 
 // Utility function to display error messages to the user
 function displayError(message) {
@@ -121,6 +122,14 @@ try {
   displayError(errorMessage); // Display error message to the user
 }
 
+try {
+  initializeDialogHandlers(); // Initialize dialog handlers
+} catch (error) {
+  const errorMessage = 'Error initializing dialog handlers: ' + error.message;
+  console.error(errorMessage);
+  displayError(errorMessage); // Display error message to the user
+}
+
 // Animation loop
 function refresh() {
   renderer.render(scene, camera); // Render the scene using the camera
@@ -128,6 +137,5 @@ function refresh() {
   requestAnimationFrame(refresh); // Recursively call refresh to create an animation loop
 }
 refresh(); // Start the animation loop
-
 
 document.addEventListener('touchmove', e => { e.preventDefault(); }, { passive:false }); //prevent page scrolling

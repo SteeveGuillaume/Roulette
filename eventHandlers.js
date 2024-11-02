@@ -116,9 +116,6 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
   window.addEventListener('click', onClickZ);
 
   document.addEventListener('DOMContentLoaded', () => {
-    const settingsButton = document.getElementById('settingsButton');
-    const settingsDialog = document.getElementById('settingsDialog');
-    const cancelButton = document.getElementById('cancelButton');
     const refreshButton = document.getElementById('refreshButton');
   
     settingsButton.addEventListener('click', () => {
@@ -133,8 +130,8 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
       location.reload();
     });
 
-    rotateButton.addEventListener("touchstart", startRotation);
-    rotateButton.addEventListener("touchmove", changeRotation);
+  rotateButton.addEventListener("touchstart", startRotation);
+  rotateButton.addEventListener("touchmove", changeRotation);
     
   });
 
