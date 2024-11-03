@@ -43,32 +43,30 @@ button {
   word-wrap: break-word; /* Permettre le retour à la ligne si nécessaire */
 }
 
-/* Settings Button */
-.settings-button {
+.settings-button, .refresh-button {
   position: fixed;
   bottom: 20px;
-  right: 20px;
   font-size: 24px;
-  background-color: var(--primary-color);
   border: none;
   border-radius: 50%;
   padding: 10px;
   cursor: pointer;
   z-index: 100;
+  background: none;
+  color: #007bff;
 }
 
-/* Refresh Button */
+.settings-button:hover, .refresh-button:hover {
+  color: #0056b3;
+  border-color: #0056b3;
+}
+
+.settings-button {
+  left: 20px;
+}
+
 .refresh-button {
-  position: fixed;
-  top: 20px;
   right: 20px;
-  font-size: 24px;
-  background-color: var(--primary-color);
-  border: none;
-  border-radius: 50%;
-  padding: 10px;
-  cursor: pointer;
-  z-index: 100;
 }
 
 /* Spin Button */
