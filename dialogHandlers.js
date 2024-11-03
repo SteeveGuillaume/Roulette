@@ -1,5 +1,4 @@
-// dialogHandlers.js
-import { sliderValues } from './sliderValues.js';
+import { sliders } from './sliderValues.js';
 
 export function initializeDialogHandlers() {
     const settingsDialog = document.getElementById('settingsDialog');
@@ -9,26 +8,38 @@ export function initializeDialogHandlers() {
     settingsButton.addEventListener('click', () => {
         settingsDialog.showModal();
     });
-/*
-    cancelButton.addEventListener('click', () => {
-        settingsDialog.close();
-    });
-*/
-    // Add event listeners for sliders
-    const sliders = document.querySelectorAll('.slider-item input[type="range"]');
+
     sliders.forEach(slider => {
-        slider.value = sliderValues[slider.id]; // Initialize the corresponding value in sliderValues
-        const valueSpan = document.getElementById(`${slider.id}Value`);
-        valueSpan.textContent = slider.value; // Initialize with the current value
+        const sliderElement = document.getElementById(slider.id);
+        noUiSlider.create(sliderElement, {
+            start: slider.start,
+            connect: slider.min !== undefined,
+            range: {
+                'min': slider.min !== undefined ? slider.min : 0,
+                'max': slider.max
+            },
+            step: slider.step,
+            format: {
+                to: function (value) {
+                    return Math.round(value);
+                },
+                from: function (value) {
+                    return Number(value);
+                }
+            }
+        });
 
-        const updateSliderValue = (event) => {
-            valueSpan.textContent = event.target.value;
-            sliderValues[slider.id] = event.target.value; // Update the corresponding value in sliderValues
-        };
+        if (slider.minSpan) {
+            const minSpan = document.getElementById(slider.minSpan);
+            sliderElement.noUiSlider.on('update', function (values, handle) {
+                minSpan.innerHTML = values[0];
+            });
+        }
 
-        slider.addEventListener('input', updateSliderValue);
-        //slider.addEventListener('touchstart', updateSliderValue);
-        //slider.addEventListener('touchmove', updateSliderValue);
+        const maxSpan = document.getElementById(slider.maxSpan);
+        sliderElement.noUiSlider.on('update', function (values, handle) {
+            maxSpan.innerHTML = values[slider.minSpan ? 1 : 0];
+        });
     });
 
     // Add event listener for the submit button

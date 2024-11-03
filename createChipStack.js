@@ -1,10 +1,19 @@
 import { createQuincunx, clearChipStackList } from './chipCreation.js';
 import { initializeNumberList, NUMBER_LIST } from './winningNumberList.js';
-import { sliderValues } from './sliderValues.js';
+import { sliders } from './sliderValues.js';
 
 const BOX_SECTION = 18;
 const HALF_BOX_SECTION = 9;
 
+const sliderValues = {
+  max: 40,
+  nbColumn: 9,
+  plein: 15,
+  cheval: 20,
+  transversale: 40,
+  carre: 40,
+  sixain: 60
+};
 
 const chipStackTemplate = {
   name: "",

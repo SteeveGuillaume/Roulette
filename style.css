@@ -111,9 +111,10 @@ dialog {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
   margin-top: 20px;
   margin-bottom: 20px;
+  width: 100%; /* Ensure the container takes full width */
 }
 
 .slider-item {
@@ -124,17 +125,17 @@ dialog {
 }
 
 .slider-item label {
-  flex: 2; /* Increase space for the label */
+  flex: 2; /* Adjust space for the label */
   text-align: left;
 }
 
-.slider-item input[type="range"] {
-  flex: 3; /* Adjust space for the range input */
+.slider-item .noUi-target {
+  flex: 3; /* Adjust space for the slider */
   margin-left: 10px;
 }
 
 .slider-item span {
   flex: 1;
-  text-align: right;
+  text-align: center; /* Center the text */
   margin-left: 10px;
 }

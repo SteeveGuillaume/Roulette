@@ -16,6 +16,8 @@
       gtag('js', new Date());
       gtag('config', 'G-TBERV35RDP');
     </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.5.0/nouislider.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.5.0/nouislider.min.js"></script>
   </head>
   <body>
     <div class="div-overlay">
@@ -25,45 +27,50 @@
     <button id="settingsButton" class="settings-button" aria-label="Open settings">⚙️</button>
     <button id="rotateButton" class="spin-button" aria-label="Spin the roulette">Turn</button>
     
-    <!-- Dialog -->
+      <!-- Dialog -->
     <dialog id="settingsDialog">
       <form method="dialog">
         <h2>Settings</h2>
         <div class="slider-container">
           <div class="slider-item">
             <label for="max">MAX :</label>
-            <input type="range" id="max" name="max" min="5" max="200" step="5">
-            <span id="maxValue">100</span>
+            <div id="maxSlider" class="slider"></div>
+            <span id="maxValueMax">200</span>
           </div>
           <div class="slider-item">
             <label for="nbColumn">Nb de lignes :</label>
-            <input type="range" id="nbColumn" name="nbColumn" min="1" max="9" step="1">
-            <span id="nbColumnValue">14</span>
+            <div id="nbColumnSlider" class="slider"></div>
+            <span id="nbColumnValueMax">9</span>
           </div>
           <div class="slider-item">
             <label for="plein">Plein :</label>
-            <input type="range" id="plein" name="plein" min="5" max="20" step="5">
-            <span id="pleinValue">15</span>
+            <span id="pleinValueMin">5</span>
+            <div id="pleinSlider" class="slider"></div>
+            <span id="pleinValueMax">20</span>
           </div>
           <div class="slider-item">
             <label for="cheval">Cheval :</label>
-            <input type="range" id="cheval" name="cheval" min="5" max="40" step="5">
-            <span id="chevalValue">30</span>
+            <span id="chevalValueMin">5</span>
+            <div id="chevalSlider" class="slider"></div>
+            <span id="chevalValueMax">40</span>
           </div>
           <div class="slider-item">
             <label for="transversale">Transversale :</label>
-            <input type="range" id="transversale" name="transversale" min="5" max="60" step="5">
-            <span id="transversaleValue">50</span>
+            <span id="transversaleValueMin">5</span>
+            <div id="transversaleSlider" class="slider"></div>
+            <span id="transversaleValueMax">60</span>
           </div>
           <div class="slider-item">
             <label for="carre">Carré :</label>
-            <input type="range" id="carre" name="carre" min="5" max="80" step="5">
-            <span id="carreValue">60</span>
+            <span id="carreValueMin">5</span>
+            <div id="carreSlider" class="slider"></div>
+            <span id="carreValueMax">80</span>
           </div>
           <div class="slider-item">
             <label for="sixain">Sixain :</label>
-            <input type="range" id="sixain" name="sixain" min="5" max="120" step="5">
-            <span id="sixainValue">125</span>
+            <span id="sixainValueMin">5</span>
+            <div id="sixainSlider" class="slider"></div>
+            <span id="sixainValueMax">120</span>
           </div>
         </div>
         <menu>
