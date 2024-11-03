@@ -1,19 +1,24 @@
 import { createQuincunx, clearChipStackList } from './chipCreation.js';
 import { initializeNumberList, NUMBER_LIST } from './winningNumberList.js';
-import { sliders } from './sliderValues.js';
+import { sliders, getCurrentSliderValues } from './sliderValues.js';
 
 const BOX_SECTION = 18;
 const HALF_BOX_SECTION = 9;
 
-const sliderValues = {
-  max: 40,
-  nbColumn: 9,
-  plein: 15,
-  cheval: 20,
-  transversale: 40,
-  carre: 40,
-  sixain: 60
-};
+let sliderValues = {};
+
+/**
+ * Initialise les valeurs des sliders à partir des sliders définis.
+ */
+function initializeSliderValues() {
+  const currentSliderValues = getCurrentSliderValues();
+  sliders.forEach(slider => {
+    const { id } = slider;
+    const key = id.replace('Slider', '');
+    const value = currentSliderValues[id];
+    sliderValues[key] = value;
+  });
+}
 
 const chipStackTemplate = {
   name: "",
@@ -64,7 +69,7 @@ function createChipStackObject(axeX, axeZ, winningPlayerList) {
  * @param {array} winningPlayerList - La liste des joueurs gagnants.
  */
 function updateWinningPlayerList(chipStackObject, winningPlayerList) {
-  const numberPlein = getRandomInt(sliderValues.plein);
+  const numberPlein = getRandomIntInRange(sliderValues.plein[0], sliderValues.plein[1]);
   if (chipStackObject.posX === -HALF_BOX_SECTION) {
     winningPlayerList[0].plein += numberPlein;
     chipStackObject.number = numberPlein;
@@ -91,7 +96,7 @@ function updateWinningPlayerList(chipStackObject, winningPlayerList) {
  */
 const updateJetons = (indices, type, chipStackObject, winningPlayerList) => {
     // Utiliser la valeur de sliderValues directement en fonction du type
-    const nbJetons = getRandomInt(sliderValues[type]);
+    const nbJetons = getRandomIntInRange(sliderValues[type][0], sliderValues[type][1]);
 
     // Utiliser forEach pour mettre à jour les valeurs
     indices.forEach(index => {
@@ -167,10 +172,10 @@ function handleSpecialCase(axeX, axeZ) {
  * Crée les piles de jetons initiales.
  */
 function createInitialChipStacks(winningNumberList) {
-  const randMax = getRandomInt(sliderValues.max);
+  const randMax = getRandomIntInRange(0, sliderValues.max);
   for (let index = 0; index < randMax; index++) {
-    let axeX = getRandomInt(sliderValues.nbColumn) * HALF_BOX_SECTION;
-    let axeZ = getRandomInt(6) * HALF_BOX_SECTION;
+    let axeX = getRandomIntInRange(0, sliderValues.nbColumn) * HALF_BOX_SECTION;
+    let axeZ = getRandomIntInRange(0, 6) * HALF_BOX_SECTION;
     ({ axeX, axeZ } = handleSpecialCase(axeX, axeZ));
     createChipStackObject(axeX, axeZ, winningNumberList[0]);
   }
@@ -183,6 +188,7 @@ function createInitialChipStacks(winningNumberList) {
  */
 export function initializeChipStack(scene) {
   clearChipStack(scene);
+  initializeSliderValues();
   winningNumberList = initializeNumberList();
   createInitialChipStacks(winningNumberList);
   createQuincunx(chipStackList, 0, scene);
@@ -197,14 +203,15 @@ function clearChipStack(scene){
   clearChipStackList(scene);
   chipStackList = [];
   winningNumberList = [];
+  sliderValues = {};
 }
 
-
 /**
- * Renvoie un entier aléatoire compris entre 0 et max-1.
+ * Renvoie un entier aléatoire compris entre min et max (inclus).
+ * @param {number} min - La valeur minimale.
  * @param {number} max - La valeur maximale.
- * @returns {number} Un entier aléatoire.
+ * @returns {number} Un entier aléatoire compris entre min et max.
  */
-function getRandomInt(max) {
-  return Math.floor(Math.random() * max);
+function getRandomIntInRange(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
 }
