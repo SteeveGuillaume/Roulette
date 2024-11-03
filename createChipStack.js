@@ -158,7 +158,7 @@ function handleSpecialCase(axeX, axeZ) {
  * Crée les piles de jetons initiales.
  */
 function createInitialChipStacks(winningNumberList) {
-  const randMax = getRandomInt(30);
+  const randMax = getRandomInt(sliderValues.max);
   for (let index = 0; index < randMax; index++) {
     let axeX = getRandomInt(sliderValues.nbColumn) * HALF_BOX_SECTION;
     let axeZ = getRandomInt(6) * HALF_BOX_SECTION;
