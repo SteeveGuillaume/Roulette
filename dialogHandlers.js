@@ -2,7 +2,6 @@ import { sliders } from './sliderValues.js';
 
 export function initializeDialogHandlers() {
     const settingsDialog = document.getElementById('settingsDialog');
-    const cancelButton = document.getElementById('cancelButton');
     const settingsButton = document.getElementById('settingsButton');
 
     settingsButton.addEventListener('click', () => {
@@ -49,7 +48,7 @@ export function initializeDialogHandlers() {
 
         // Dispatch a custom event to notify main.js
         const updateEvent = new CustomEvent('settingsSubmitted', {
-            detail: sliderValues
+            detail: sliders
         });
         document.dispatchEvent(updateEvent);
     });
