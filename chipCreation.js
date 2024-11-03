@@ -30,16 +30,22 @@ function createQuincunx(chipStackList, initialHeight, scene) {
     let step = 3;
     let switchColumn = false;
 
-    for (let i = 0; i < nbColumns * 5; i++) {
-      if (i % 5 === 0) switchColumn = !switchColumn;
-      createChipAtPosition(switchColumn, posX, posZ, currentHeight, step, isGrayChip, scene);
-      currentHeight++;
+    for (let i = 0; i < nbColumns; i++) {
+      for (let j = 0; j < 5; j++) {
+        if (j === 0) switchColumn = !switchColumn;
+        createChipAtPosition(switchColumn, posX, posZ, currentHeight, step, isGrayChip, scene);
+        currentHeight++;
+      }
     }
+
+    // Inverser la direction du step pour les jetons restants
+    //step = -step;
+    switchColumn = !switchColumn;
 
     while (currentHeight < totalHeight) {
       createChipAtPosition(switchColumn, posX, posZ, currentHeight, step, isGrayChip, scene);
       currentHeight++;
-      step += 3;
+      step -= 3; // Continuer dans la direction opposée
     }
   });
 
@@ -57,10 +63,11 @@ function createQuincunx(chipStackList, initialHeight, scene) {
  * @param {object} scene - La scène Three.js
  */
 function createChipAtPosition(switchColumn, posX, posZ, currentHeight, step, isGrayChip, scene) {
-  const adjustedPosX = switchColumn ? (posX + step / 10) : (posX - (step + 6) / 10);
-  const adjustedPosZ = isGrayChip ? posZ : (posZ - (step * 2) / 10);
-  const posY = (currentHeight * DEFAULT_CHIP_ATTRIBUTE.height) + DEFAULT_CHIP_ATTRIBUTE.height;
-  let chip = createChip(adjustedPosX, posY, adjustedPosZ, isGrayChip, scene);
+  const baseStep = step / 10;
+  const adjustedPosX = posX + (switchColumn ? baseStep : -baseStep - 0.6);
+  const adjustedPosZ = posZ - (isGrayChip ? 0 : baseStep * 2);
+  const posY = (currentHeight + 1) * DEFAULT_CHIP_ATTRIBUTE.height;
+  const chip = createChip(adjustedPosX, posY, adjustedPosZ, isGrayChip, scene);
   currentChipStackList.push(chip);
 }
 

@@ -139,3 +139,7 @@ dialog {
   text-align: center; /* Center the text */
   margin-left: 10px;
 }
+
+.disable-dbl-tap-zoom {
+  touch-action: manipulation;
+}
