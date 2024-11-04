@@ -47,9 +47,10 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
   const hideOutOfRangeChips = (boxHit) => {
     scene.traverse(node => {
       if (node instanceof Mesh && node.geometry.type === "CylinderGeometry") {
-        const xCondition = node.position.x !== 0 && Math.abs(node.position.x - boxHit.position.x) > CHIP_DISTANCE_THRESHOLD;
+        const xCondition = Math.abs(node.position.x - boxHit.position.x) > CHIP_DISTANCE_THRESHOLD;
         const zCondition = node.position.z !== 0 && Math.abs(node.position.z - boxHit.position.z) > (boxHit.name === 'number0' ? CHIP_DISTANCE_THRESHOLD_0 : CHIP_DISTANCE_THRESHOLD);
-        if (xCondition || zCondition) hideChips(node);
+        
+        if (xCondition || zCondition) hideChips(node)
       }
     });
   };

@@ -64,9 +64,9 @@ function createQuincunx(chipStackList, initialHeight, scene) {
  */
 function createChipAtPosition(switchColumn, posX, posZ, currentHeight, step, isGrayChip, scene) {
   const baseStep = step / 10;
-  const adjustedPosX = posX + (switchColumn ? baseStep : -baseStep - 0.6);
-  const adjustedPosZ = posZ - (isGrayChip ? 0 : baseStep * 2);
-  const posY = (currentHeight + 1) * DEFAULT_CHIP_ATTRIBUTE.height;
+  const adjustedPosX = parseFloat((posX + (switchColumn ? baseStep : -baseStep - 0.6)).toFixed(1));
+  const adjustedPosZ = parseFloat((posZ - (isGrayChip ? 0 : baseStep * 2)).toFixed(1));
+  const posY = parseFloat(((currentHeight + 1) * DEFAULT_CHIP_ATTRIBUTE.height).toFixed(1));
   const chip = createChip(adjustedPosX, posY, adjustedPosZ, isGrayChip, scene);
   currentChipStackList.push(chip);
 }
