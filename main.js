@@ -4,7 +4,7 @@ import './style.css';
 import { initializeLights } from './lights.js';
 import { initializeCamera } from './camera.js';
 import { initializeRenderer } from './renderer.js';
-import { initializeChipStack } from './createChipStack.js';
+import { initializeChipStack } from './chipStacks.js';
 import { initializeOrbitControls } from './orbitControls.js';
 import { initializeEventHandlers, updateWiningNumberList } from './eventHandlers.js';
 import { initializeMainPlane } from './plane.js';
