@@ -1,6 +1,6 @@
 import { createQuincunx, clearChipStackList } from './chipCreation.js';
 import { initializeNumberList, NUMBER_LIST } from './winningNumberList.js';
-import { sliders, getCurrentSliderValues } from './sliderValues.js';
+import { sliders, getCurrentSliderValues, getCheckboxStates } from './sliderValues.js';
 
 const BOX_SECTION = 18;
 const HALF_BOX_SECTION = 9;
@@ -63,13 +63,33 @@ function createChipStackObject(axeX, axeZ, winningPlayerList) {
   }
 }
 
+
+/**
+ * Return the number of chips for a given type.
+ * @param {number} min - La valeur minimale.
+ * @param {number} max - La valeur maximale.
+ * @returns {number} The adjusted coordinates.
+ */
+function getnumberChips(type, min, max) {
+  const checkboxStates = getCheckboxStates();
+  let chips = 0;
+
+  Object.entries(checkboxStates).forEach(([id, checked]) => {
+      if (id.includes(type) && checked) {
+          chips = getRandomIntInRange(min, max);
+      }
+  });
+
+  return chips;
+}
+
 /**
  * Met à jour la liste des joueurs gagnants en fonction des coordonnées des jetons.
  * @param {object} chipStackObject - L'objet chipStack
  * @param {array} winningPlayerList - La liste des joueurs gagnants.
  */
 function updateWinningPlayerList(chipStackObject, winningPlayerList) {
-  const numberPlein = getRandomIntInRange(sliderValues.plein[0], sliderValues.plein[1]);
+  const numberPlein = getnumberChips('plein', sliderValues.plein[0], sliderValues.plein[1]);
   if (chipStackObject.posX === -HALF_BOX_SECTION) {
     winningPlayerList[0].plein += numberPlein;
     chipStackObject.number = numberPlein;
@@ -96,7 +116,7 @@ function updateWinningPlayerList(chipStackObject, winningPlayerList) {
  */
 const updateJetons = (indices, type, chipStackObject, winningPlayerList) => {
     // Utiliser la valeur de sliderValues directement en fonction du type
-    const nbJetons = getRandomIntInRange(sliderValues[type][0], sliderValues[type][1]);
+    const nbJetons = getnumberChips(type, sliderValues[type][0], sliderValues[type][1]);
 
     // Utiliser forEach pour mettre à jour les valeurs
     indices.forEach(index => {

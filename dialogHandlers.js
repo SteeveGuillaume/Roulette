@@ -3,6 +3,7 @@ import { sliders } from './sliderValues.js';
 export function initializeDialogHandlers() {
     const settingsDialog = document.getElementById('settingsDialog');
     const settingsButton = document.getElementById('settingsButton');
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
 
     settingsButton.addEventListener('click', () => {
         settingsDialog.showModal();
@@ -38,6 +39,20 @@ export function initializeDialogHandlers() {
         const maxSpan = document.getElementById(slider.maxSpan);
         sliderElement.noUiSlider.on('update', function (values, handle) {
             maxSpan.innerHTML = values[slider.minSpan ? 1 : 0];
+        });
+    });
+
+  
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', (event) => {
+        const sliderId = event.target.id;
+        const slider = document.querySelector(`.slider[data-checkbox="${sliderId}"]`);
+        
+        if (event.target.checked) {
+            slider.classList.remove('disabled');
+        } else {
+            slider.classList.add('disabled');
+        }
         });
     });
 

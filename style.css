@@ -120,24 +120,34 @@ dialog {
 .slider-item {
   display: flex;
   align-items: center;
+  text-align: left;
   justify-content: space-between;
   width: 100%;
 }
 
 .slider-item label {
-  flex: 2; /* Adjust space for the label */
-  text-align: left;
+  flex: 3;
+  margin-right: 10px;
+  white-space: nowrap; /* Ensure labels like "Transversale" stay on one line */
 }
 
-.slider-item .noUi-target {
-  flex: 3; /* Adjust space for the slider */
-  margin-left: 10px;
+.slider-item input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.slider-item .slider {
+  flex: 2;
+  margin: 0 10px;
+  min-width: 150px; /* Ensure all sliders have the same minimum width */
 }
 
 .slider-item span {
   flex: 1;
-  text-align: center; /* Center the text */
-  margin-left: 10px;
+}
+
+.slider.disabled {
+  pointer-events: none;
+  opacity: 0.5;
 }
 
 .disable-dbl-tap-zoom {

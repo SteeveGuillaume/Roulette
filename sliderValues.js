@@ -31,3 +31,14 @@ export function getCurrentSliderValues() {
     });
     return currentValues;
 }
+
+export function getCheckboxStates() {
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    const checkboxStates = {};
+
+    checkboxes.forEach(checkbox => {
+        checkboxStates[checkbox.id] = checkbox.checked;
+    });
+
+    return checkboxStates;
+}
