@@ -7,9 +7,16 @@ import { createCylinderGeometry, DEFAULT_CHIP_ATTRIBUTE } from './chipGeometry.j
 let currentChipStackList = [];
 let currentPictureBetsList = [];
 
-function createPictureBets(chipList, startX, startY, scene) {
+/**
+ * Crée un quincunx de jetons
+ * @param {array} chipList - Liste des jetons
+ * @param {number} startX - La position X 
+ * @param {number} startY - La position Y 
+ * @param {object} scene - La scène Three.js
+ */
+function createPictureBets(chipList, posX, posY, scene) {
   chipList.forEach(chip => {
-    let pictureBet = createChip((chip[0] * 9) + startX, 0, (chip[1] * 9) + startY, false, scene);
+    let pictureBet = createChip((chip[0] * 9) + posX, 0, (chip[1] * 9) + posY, false, scene);
     currentPictureBetsList.push(pictureBet);
   });
 }
