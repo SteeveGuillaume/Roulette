@@ -26,6 +26,7 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
   const pointer = new Vector2();
   let dragging = false;
   let lastMouseX = 0;
+  let dialogOpen = false;
 
   const rotateButton = document.getElementById("rotateButton");
   const displayText = document.getElementById("displayText");
@@ -77,6 +78,9 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
   };
 
   const onClickZ = (event) => {
+    if (dialogOpen) {
+      return;
+    }
     if (dragging) {
       dragging = false;
     } else {
@@ -127,6 +131,13 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
 
     rotateButton.addEventListener("touchstart", startRotation);
     rotateButton.addEventListener("touchmove", changeRotation);
+    document.addEventListener('dialogOpened', () => {
+      dialogOpen = true;
+  });
+
+  document.addEventListener('dialogClosed', () => {
+      dialogOpen = false;
+  });
   });
 
 }

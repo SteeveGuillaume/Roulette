@@ -4,9 +4,15 @@ export function initializeDialogHandlers() {
     const settingsDialog = document.getElementById('settingsDialog');
     const settingsButton = document.getElementById('settingsButton');
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    const submitButton = document.getElementById('submitButton');
 
     settingsButton.addEventListener('click', () => {
         settingsDialog.showModal();
+        document.dispatchEvent(new CustomEvent('dialogOpened'));
+    });
+    
+    settingsDialog.addEventListener('close', () => {
+        document.dispatchEvent(new CustomEvent('dialogClosed'));
     });
 
     sliders.forEach(slider => {
