@@ -3,7 +3,7 @@ import { showChips, hideChips } from './chipCreation.js';
 
 const BOX_SECTION = 18;
 const CHIP_DISTANCE_THRESHOLD = 12;
-const CHIP_DISTANCE_THRESHOLD_0 = 18;
+const CHIP_DISTANCE_THRESHOLD_0 = 36;
 
 const POSITION_MAP = {
   "19": { x: (BOX_SECTION * 7) - 9, z: (BOX_SECTION / -2) },
@@ -49,7 +49,7 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
     scene.traverse(node => {
       if (node instanceof Mesh && node.geometry.type === "CylinderGeometry") {
         const xCondition = Math.abs(node.position.x - boxHit.position.x) > CHIP_DISTANCE_THRESHOLD;
-        const zCondition = node.position.z !== 0 && Math.abs(node.position.z - boxHit.position.z) > (boxHit.name === 'number0' ? CHIP_DISTANCE_THRESHOLD_0 : CHIP_DISTANCE_THRESHOLD);
+        const zCondition = Math.abs(node.position.z - boxHit.position.z) > (boxHit.name === 'number0' ? CHIP_DISTANCE_THRESHOLD_0 : CHIP_DISTANCE_THRESHOLD);
         
         if (xCondition || zCondition) hideChips(node)
       }
