@@ -1,5 +1,3 @@
-// chipCreation.js
-
 import { Mesh, MeshBasicMaterial } from 'three';
 import { chipMaterialGray, chipMaterialRed } from './chipTextures.js';
 import { createCylinderGeometry, DEFAULT_CHIP_ATTRIBUTE } from './chipGeometry.js';
@@ -110,6 +108,7 @@ function createChip(posX, posY, posZ, isGray, scene) {
   const chip = new Mesh(new createCylinderGeometry(), material);
   chip.name = `chip-${posZ}/${posX}/${posY}/${isGray}`;
   chip.position.set(posX, posY, -posZ);
+  chip.rotation.y = Math.random() * Math.PI * 3;
   scene.add(chip);
   return chip;
 }
