@@ -1,4 +1,4 @@
-import { createQuincunx, clearChipStackList } from './chipCreation.js';
+import { createChipStacks, clearChipStackList } from './chipCreation.js';
 import { initializeNumberList, NUMBER_LIST } from './winningNumberList.js';
 import { sliders, getCurrentSliderValues, getCheckboxStates } from './sliderValues.js';
 
@@ -211,7 +211,7 @@ export function initializeChipStack(scene) {
   initializeSliderValues();
   winningNumberList = initializeNumberList();
   createInitialChipStacks(winningNumberList);
-  createQuincunx(chipStackList, 0, scene);
+  createChipStacks(chipStackList, true, scene);
   return winningNumberList;
 }
 

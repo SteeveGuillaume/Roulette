@@ -22,16 +22,36 @@ function createPictureBets(chipList, posX, posY, scene) {
 }
 
 /**
+ * Crée les ChipStacks
+ * @param {array} chipStackList - Liste des piles de jetons
+ * @param {boolean} players - Si plusieurs joueurs sont impliqués
+ * @param {object} scene - La scène Three.js
+ */
+function createChipStacks(chipStackList, players, scene) {
+  chipStackList.forEach(chipStack => {
+    if (players) {
+      const oldChipStack = { ...chipStack };
+      const randomInt = Math.floor(Math.random() * chipStack.number);
+      const maxInt = Math.max(chipStack.number - randomInt, randomInt);
+      chipStack.number = maxInt;
+      oldChipStack.number -= maxInt;
+      const finalHeight = createQuincunx(chipStack, 0, false, scene);
+      createQuincunx(oldChipStack, finalHeight, true, scene);
+    } else {
+      createQuincunx(chipStack, 0, false, scene);
+    }
+  });
+}
+
+/**
  * Crée un quincunx de jetons
  * @param {array} chipStackList - Liste des piles de jetons
  * @param {number} currentHeight - Hauteur actuelle de la pile
  * @param {object} scene - La scène Three.js
  */
-function createQuincunx(chipStackList, initialHeight, scene) {
-  chipStackList.forEach(chipStack => {
+function createQuincunx(chipStack, initialHeight, isGrayChip, scene) {
     const { posX, posZ, number } = chipStack;
     let currentHeight = initialHeight;
-    const isGrayChip = currentHeight === 0;
     const nbColumns = Math.floor(number / 5);
     const totalHeight = number + currentHeight;
     let step = 3;
@@ -54,9 +74,8 @@ function createQuincunx(chipStackList, initialHeight, scene) {
       currentHeight++;
       step -= 3; // Continuer dans la direction opposée
     }
-  });
 
-  return initialHeight;
+  return currentHeight;
 }
 
 /**
@@ -70,10 +89,10 @@ function createQuincunx(chipStackList, initialHeight, scene) {
  * @param {object} scene - La scène Three.js
  */
 function createChipAtPosition(switchColumn, posX, posZ, currentHeight, step, isGrayChip, scene) {
-  const baseStep = step / 10;
-  const adjustedPosX = parseFloat((posX + (switchColumn ? baseStep : -baseStep - 0.6)).toFixed(1));
-  const adjustedPosZ = parseFloat((posZ - (isGrayChip ? 0 : baseStep * 2)).toFixed(1));
-  const posY = parseFloat(((currentHeight + 1) * DEFAULT_CHIP_ATTRIBUTE.height).toFixed(1));
+  const baseStep = parseFloat(step / 10);
+  const adjustedPosX = posX + (switchColumn ? baseStep : -baseStep - 0.6);
+  const adjustedPosZ = posZ - (isGrayChip ? 0 : baseStep * 2);
+  const posY = (currentHeight + 1) * DEFAULT_CHIP_ATTRIBUTE.height;
   const chip = createChip(adjustedPosX, posY, adjustedPosZ, isGrayChip, scene);
   currentChipStackList.push(chip);
 }
@@ -142,4 +161,4 @@ function clearPictureBets(scene) {
   currentPictureBetsList = [];
 }
 
-export { createQuincunx, createPictureBets, hideChips, showChips, clearChipStackList, clearPictureBets };
+export { createChipStacks, createPictureBets, hideChips, showChips, clearChipStackList, clearPictureBets };
