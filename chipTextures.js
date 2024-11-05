@@ -1,13 +1,8 @@
-import { TextureLoader, MeshBasicMaterial, MeshLambertMaterial } from 'three';
+import { TextureLoader, MeshBasicMaterial, MeshLambertMaterial, CanvasTexture } from 'three';
 
 const DEFAULT_TEXTURES = {
   redChip: 'redChip.png',
   greenChip: 'greenChip.png'
-};
-
-const DEFAULT_COLORS = {
-  sideGray: 0xffffff,
-  sideRed: 0xff0000
 };
 
 const loader = new TextureLoader();
@@ -18,27 +13,30 @@ const loadTexture = (path) => loader.load(path);
 const redChipTexture = loadTexture(DEFAULT_TEXTURES.redChip);
 const greenChipTexture = loadTexture(DEFAULT_TEXTURES.greenChip);
 
-const redChipMaterial = new MeshBasicMaterial({ map: redChipTexture });
-const greenChipMaterial = new MeshBasicMaterial({ map: greenChipTexture });
+// Fonction pour créer une texture alternée
+const createAlternatingTexture = (isGray) => {
+  const canvas = document.createElement('canvas');
+  canvas.width = 100;
+  canvas.height = 10;
+  const context = canvas.getContext('2d');
 
-const createChipMaterials = (sideColor, topMaterial) => [
-  new MeshLambertMaterial({ color: sideColor }),
-  topMaterial,
+  for (let i = 0; i < 10; i++) {
+    context.fillStyle = isGray ? (i % 2 === 0 ? '#808080' : '#FFFFFF') : (i % 2 === 0 ? '#FF0000' : '#FFFFFF');
+    context.fillRect(i * 10, 0, 10, 10);
+  }
+
+  return new MeshLambertMaterial({ map: new CanvasTexture(canvas) });
+};
+
+// Fonction pour créer les matériaux de puce
+const createChipMaterials = (isGray, topTexture) => [
+  createAlternatingTexture(isGray),
+  new MeshBasicMaterial({ map: topTexture }),
   new MeshLambertMaterial({ color: Math.random() * 0xffffff })
 ];
 
-export const createChipMaterialGray = (config = {}) => {
-  const { sideColor = DEFAULT_COLORS.sideGray, topMaterial = greenChipMaterial } = config;
-  return createChipMaterials(sideColor, topMaterial);
-};
-
-export const createChipMaterialRed = (config = {}) => {
-  const { sideColor = DEFAULT_COLORS.sideRed, topMaterial = redChipMaterial } = config;
-  return createChipMaterials(sideColor, topMaterial);
-};
-
 // Utilisation par défaut
-const chipMaterialGray = createChipMaterialGray();
-const chipMaterialRed = createChipMaterialRed();
+const chipMaterialGray = createChipMaterials(true, greenChipTexture);
+const chipMaterialRed = createChipMaterials(false, redChipTexture);
 
 export { chipMaterialGray, chipMaterialRed };
