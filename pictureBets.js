@@ -1,4 +1,4 @@
-import { createPictureBets, clearPictureBets } from './chipCreation.js';
+import { createPictureBets, clearPictureBets } from './pictureBetManagement.js';
 import {
     POSITION_MAP_FRST,
     POSITION_MAP_SCND,

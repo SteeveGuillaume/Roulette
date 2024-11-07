@@ -1,4 +1,4 @@
-import { createChipStacks, clearChipStackList } from './chipCreation.js';
+import { createChipStacks, clearChipStackList } from './chipStackManagement.js';
 import { initializeNumberList, NUMBER_LIST } from './winningNumberList.js';
 import { sliders, getCurrentSliderValues, getCheckboxStates } from './sliderValues.js';
 

@@ -1,5 +1,5 @@
 import { Raycaster, Vector2, Mesh, MathUtils } from 'three';
-import { showChips, hideChips } from './chipCreation.js';
+import { showChips, hideChips } from './chipVisibility.js';
 
 const BOX_SECTION = 18;
 const CHIP_DISTANCE_THRESHOLD = 12;
