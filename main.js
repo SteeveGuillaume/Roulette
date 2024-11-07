@@ -7,6 +7,7 @@ import { initializeRenderer } from './renderer.js';
 import { initializeChipStack } from './chipStacks.js';
 import { initializeOrbitControls } from './orbitControls.js';
 import { initializeEventHandlers, updateWiningNumberList } from './eventHandlers.js';
+import { initializeCameraSliders } from './cameraSliders.js';
 import { initializeMainPlane } from './plane.js';
 import { initializeBoxes } from './boxes.js';
 import { populatePictureBets } from './pictureBets.js';
@@ -122,13 +123,21 @@ try {
   displayError(errorMessage); // Display error message to the user
 }
 
-//try {
+try {
   initializeDialogHandlers(); // Initialize dialog handlers
-/*} catch (error) {
+} catch (error) {
   const errorMessage = 'Error initializing dialog handlers: ' + error.message;
   console.error(errorMessage);
   displayError(errorMessage); // Display error message to the user
-}*/
+}
+
+try {
+  initializeCameraSliders(controls); // Create camera sliders
+} catch (error) {
+  const errorMessage = 'Error creating camera sliders: ' + error.message;
+  console.error(errorMessage);
+  displayError(errorMessage); // Display error message to the user
+}
 
 // Animation loop
 function refresh() {
@@ -152,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.addEventListener('touchmove', e => {
-    if (!e.target.closest('.slider-item input[type="range"]')) {
+    if (!e.target.closest('input[type="range"]')) {
         e.preventDefault();
     }
   }, { passive: false }); // prevent page scrolling on touchmove

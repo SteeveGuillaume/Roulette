@@ -1,6 +1,6 @@
 import { MathUtils } from 'three';
 
-export function createCameraSliders(controls) {
+export function initializeCameraSliders(controls) {
 
   const rotateSliderElement = document.getElementById("rotateSlider");
   const verticalSliderElement = document.getElementById("verticalSlider");
@@ -41,7 +41,7 @@ export function createCameraSliders(controls) {
   const handleVerticalSliderChange = (event) => {
     //dragging = true;
     const currentValue = parseInt(event, 10);
-    const polarAngle = MathUtils.degToRad(currentValue + 37); // Convert degrees to radians
+    const polarAngle = MathUtils.degToRad(currentValue); // Convert degrees to radians
 
     // Set the polar angle directly
     controls.minPolarAngle = polarAngle;
