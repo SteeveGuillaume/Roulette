@@ -26,20 +26,17 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
   const raycaster = new Raycaster();
   const pointer = new Vector2();
   let dragging = false;
-  let dialogOpen = false;
   const dialogHitHandlers = new DialogHitHandlers();
 
   const handleControlStart = () => dragging = true;
-  const handleControlChange = () => {
-    if (!dragging) showChips(scene);
-  };
+  const handleControlChange = () => dragging = true;
   const handleControlEnd = () => dragging = false;
 
   const checkSpecialPositions = (boxHit) => {
     const position = Object.entries(POSITION_MAP).find(([_, pos]) => 
       boxHit.position.x === pos.x && boxHit.position.z === pos.z
     );
-    if (position) dialogHitHandlers.showDialog('Picture Bets', pbPositionList[`box${position[0]}`]);
+    //if (position) dialogHitHandlers.showDialog('Picture Bets', pbPositionList[`box${position[0]}`]);
   };
 
   const hideOutOfRangeChips = (boxHit) => {
@@ -68,7 +65,7 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
     intersections.forEach(intersect => {
       if (isPlaneGeometry(intersect.object)) {
         const text = currentWinningNumberList[0][intersect.object.name.slice(6)].getText();
-        dialogHitHandlers.showDialog('Number Details', text);
+        //dialogHitHandlers.showDialog('Number Details', text);
         checkSpecialPositions(intersect.object);
         hideOutOfRangeChips(intersect.object);
       }
@@ -76,18 +73,12 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
   };
 
   const onClickZ = (event) => {
-    if (dialogOpen) {
-      return;
-    }
-    if (dragging) {
-      dragging = false;
-    } else {
+    if (dragging) return;
       showChips(scene);
       setPointerPosition(event);
       raycaster.setFromCamera(pointer, camera);
       const intersections = raycaster.intersectObjects(scene.children, true);
       handleRaycastIntersections(intersections);
-    }
   };
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -98,10 +89,9 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
     window.addEventListener('click', onClickZ);
 
     document.addEventListener('dialogOpened', () => {
-      dialogOpen = true;
+      dragging = true;
     });
     document.addEventListener('dialogClosed', () => {
-        dialogOpen = false;
     });
   });
 

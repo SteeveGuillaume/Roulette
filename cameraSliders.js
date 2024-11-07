@@ -27,7 +27,6 @@ export function initializeCameraSliders(controls) {
   });
 
   const handleSliderChange = (event) => {
-    //dragging = true;
     const currentValue = parseInt(event, 10);
     const azimuthAngle = MathUtils.degToRad(-currentValue + 180); // Convert degrees to radians
   
@@ -51,9 +50,11 @@ export function initializeCameraSliders(controls) {
   };
 
   const startSlider = () => {
+    document.dispatchEvent(new CustomEvent('dialogOpened'));
   };
 
   const stopSlider = () => { 
+    document.dispatchEvent(new CustomEvent('dialogClosed'));
   }
 
   // Add event listeners for the horizontal slider
