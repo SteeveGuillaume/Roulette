@@ -39,7 +39,7 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
     const position = Object.entries(POSITION_MAP).find(([_, pos]) => 
       boxHit.position.x === pos.x && boxHit.position.z === pos.z
     );
-    if (position) displayText.innerHTML = pbPositionList[`box${position[0]}`];
+    if (position) dialogHitHandlers.showDialog(pbPositionList[`box${position[0]}`]);
   };
 
   const hideOutOfRangeChips = (boxHit) => {
