@@ -12,12 +12,12 @@ let sliderValues = {};
  */
 function initializeSliderValues() {
   const currentSliderValues = getCurrentSliderValues();
-  sliders.forEach(slider => {
+  sliderValues = sliders.reduce((acc, slider) => {
     const { id } = slider;
     const key = id.replace('Slider', '');
-    const value = currentSliderValues[id];
-    sliderValues[key] = value;
-  });
+    acc[key] = currentSliderValues[id];
+    return acc;
+  }, {});
 }
 
 const chipStackTemplate = {
