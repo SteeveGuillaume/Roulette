@@ -28,11 +28,36 @@ const createAlternatingTexture = (isGray) => {
   return new MeshLambertMaterial({ map: new CanvasTexture(canvas) });
 };
 
+const createDottedTexture = (isGray) => {
+  const canvas = document.createElement('canvas');
+  canvas.width = 100;
+  canvas.height = 10;
+  const context = canvas.getContext('2d');
+
+  // Définir le fond et la couleur des points en fonction de isGray
+  const backgroundColor = isGray ? '#FFFFFF' : '#FF0000';
+  const dotColor = isGray ? '#808080' : '#FFFFFF';
+
+  // Remplir le fond
+  context.fillStyle = backgroundColor;
+  context.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Dessiner les points
+  for (let i = 0; i < 10; i++) {
+    context.fillStyle = dotColor;
+    context.beginPath();
+    context.arc(i * 10 + 5, 5, 3, 0, Math.PI * 2, true);
+    context.fill();
+  }
+
+  return new MeshLambertMaterial({ map: new CanvasTexture(canvas) });
+};
+
 // Fonction pour créer les matériaux de puce
 const createChipMaterials = (isGray, topTexture) => [
-  createAlternatingTexture(isGray),
+  isGray? createAlternatingTexture(isGray) : createDottedTexture(isGray),
   new MeshBasicMaterial({ map: topTexture }),
-  new MeshLambertMaterial({ color: Math.random() * 0xffffff })
+  new MeshBasicMaterial({ map: topTexture })
 ];
 
 // Utilisation par défaut
