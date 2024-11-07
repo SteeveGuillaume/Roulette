@@ -17,9 +17,9 @@ export function initializeCameraSliders(controls) {
 
   // Create the vertical slider
   noUiSlider.create(verticalSliderElement, {
-    start: 0,
+    start: 60,
     range: {
-      min: -90,
+      min: 0,
       max: 90
     },
     orientation: 'vertical',

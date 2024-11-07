@@ -2,7 +2,7 @@ import { MOUSE, TOUCH } from 'three';
 import { OrbitControls } from 'three/examples/jsm/Addons.js';
 
 const DEFAULT_CONFIG = {
-  target: { x: 63, y: 0, z: -27 },
+  target: { x: 27, y: 0, z: -27 },
   minPolarAngle: Math.PI / 5,
   maxPolarAngle: Math.PI / 2.5,
   minAzimuthAngle: Math.PI / 2,

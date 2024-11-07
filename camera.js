@@ -6,9 +6,9 @@ const DEFAULT_CAMERA_CONFIG = {
   near: 0.01,
   far: 1000,
   position: {
-    x: 63,
-    y: 89,
-    z: -134
+    x: 27,
+    y: 50,
+    z: 0
   }
 };
 
