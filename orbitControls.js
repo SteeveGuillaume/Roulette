@@ -10,7 +10,7 @@ const DEFAULT_CONFIG = {
   mouseButtons: {
     LEFT: MOUSE.PAN,
     MIDDLE: MOUSE.DOLLY,
-    RIGHT: MOUSE.ROTATE
+    RIGHT: MOUSE.PAN
   },
   touches: {
     TWO: TOUCH.DOLLY_PAN,
