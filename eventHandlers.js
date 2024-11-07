@@ -39,7 +39,7 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
     const position = Object.entries(POSITION_MAP).find(([_, pos]) => 
       boxHit.position.x === pos.x && boxHit.position.z === pos.z
     );
-    if (position) dialogHitHandlers.showDialog(pbPositionList[`box${position[0]}`]);
+    if (position) dialogHitHandlers.showDialog('Picture Bets', pbPositionList[`box${position[0]}`]);
   };
 
   const hideOutOfRangeChips = (boxHit) => {
@@ -68,7 +68,7 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
     intersections.forEach(intersect => {
       if (isPlaneGeometry(intersect.object)) {
         const text = currentWinningNumberList[0][intersect.object.name.slice(6)].getText();
-        dialogHitHandlers.showDialog(text); // Show the dialog
+        dialogHitHandlers.showDialog('Number Details', text);
         checkSpecialPositions(intersect.object);
         hideOutOfRangeChips(intersect.object);
       }

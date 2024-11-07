@@ -1,7 +1,8 @@
 export class DialogHitHandlers {
     constructor() {
       this.numberDialog = document.getElementById("hitDialog");
-      this.dialogText = document.getElementById("dialogText");
+      this.dialogTitle = document.getElementById("hitDialogTitle");
+      this.dialogText = document.getElementById("hitDialogText");
       this.dialogOpen = false;
   
       this.initializeEventListeners();
@@ -18,10 +19,11 @@ export class DialogHitHandlers {
       });
     }
   
-    showDialog(text) {
-      this.dialogText.innerHTML = text;
-      this.numberDialog.showModal();
-      document.dispatchEvent(new CustomEvent('dialogOpened'));
+    showDialog(title, text) {
+        this.dialogTitle.innerHTML = title;
+        this.dialogText.innerHTML = text;
+        this.numberDialog.showModal();
+        document.dispatchEvent(new CustomEvent('dialogOpened'));
     }
   
     isDialogOpen() {
