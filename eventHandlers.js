@@ -1,4 +1,4 @@
-import { Raycaster, Vector2, Mesh } from 'three';
+import { Raycaster, Vector2, Mesh, MathUtils } from 'three';
 import { showChips, hideChips } from './chipCreation.js';
 
 const BOX_SECTION = 18;
@@ -25,10 +25,9 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
   const raycaster = new Raycaster();
   const pointer = new Vector2();
   let dragging = false;
-  let lastMouseX = 0;
   let dialogOpen = false;
 
-  const rotateButton = document.getElementById("rotateButton");
+  const rotateSlider = document.getElementById("rotateSlider");
   const displayText = document.getElementById("displayText");
 
   const handleControlStart = () => dragging = true;
@@ -92,34 +91,22 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
     }
   };
 
-  const getMouseX = (e) => e.clientX || e.changedTouches[0].clientX;
-
-  const startRotation = (e) => {
-    lastMouseX = getMouseX(e);
-  };
-
-  const changeRotation = (e) => {
-    dragging = true;
-    const currentMouseX = getMouseX(e);
-    const deltaX = currentMouseX - lastMouseX;
-    checkDirection(currentMouseX);
-    lastMouseX = currentMouseX;
-
-    controls.autoRotate = true;
-    controls.autoRotateSpeed += deltaX * 0.002;
-    stopRotation();
-    controls.update();
-  };
-
   const stopRotation = () => {
     setTimeout(() => {
       controls.autoRotate = false;
     }, 100);
   };
 
-  const checkDirection = (currentMouseX) => {
-    if (currentMouseX < lastMouseX && controls.autoRotateSpeed > 0) controls.autoRotateSpeed *= -1;
-    if (currentMouseX > lastMouseX && controls.autoRotateSpeed < 0) controls.autoRotateSpeed *= -1;
+  const handleSliderChange = (event) => {
+    dragging = true;
+    const currentValue = parseInt(event.target.value, 10);
+    const azimuthAngle = MathUtils.degToRad(-currentValue + 180); // Convert degrees to radians
+  
+    // Set the azimuthal angle directly
+    controls.minAzimuthAngle = azimuthAngle;
+    controls.maxAzimuthAngle = azimuthAngle;
+  
+    controls.update();
   };
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -129,11 +116,10 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
   
     window.addEventListener('click', onClickZ);
 
-    rotateButton.addEventListener("touchstart", startRotation);
-    rotateButton.addEventListener("touchmove", changeRotation);
+    rotateSlider.addEventListener("input", handleSliderChange);
     document.addEventListener('dialogOpened', () => {
       dialogOpen = true;
-  });
+    });
 
   document.addEventListener('dialogClosed', () => {
       dialogOpen = false;

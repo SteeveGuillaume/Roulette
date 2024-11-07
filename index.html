@@ -25,7 +25,9 @@
     </div>
     <button id="refreshButton" class="refresh-button disable-dbl-tap-zoom" aria-label="Refresh the page">🔄</button>
     <button id="settingsButton" class="settings-button disable-dbl-tap-zoom" aria-label="Open settings">⚙️</button>
-    <button id="rotateButton" class="spin-button disable-dbl-tap-zoom" aria-label="Spin the roulette">Turn</button>
+    <div class="bottom-slider-container">
+      <input type="range" id="rotateSlider" class="bottom-slider" min="-90" max="90" value="0">
+    </div>
     
       <!-- Dialog -->
     <dialog id="settingsDialog">

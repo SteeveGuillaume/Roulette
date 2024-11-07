@@ -153,3 +153,17 @@ dialog {
 .disable-dbl-tap-zoom {
   touch-action: manipulation;
 }
+
+/* Bottom Slider */
+.bottom-slider-container {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  z-index: 100;
+}
+
+.bottom-slider {
+  width: 100%;
+}
