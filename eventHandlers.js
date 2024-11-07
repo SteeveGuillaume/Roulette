@@ -32,7 +32,6 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
   const handleControlStart = () => dragging = true;
   const handleControlChange = () => {
     if (!dragging) showChips(scene);
-    displayText.innerHTML = "";
   };
   const handleControlEnd = () => dragging = false;
 
