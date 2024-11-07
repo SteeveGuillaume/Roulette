@@ -26,8 +26,7 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
   const pointer = new Vector2();
   let dragging = false;
   let dialogOpen = false;
-
-  const rotateSlider = document.getElementById("rotateSlider");
+  
   const displayText = document.getElementById("displayText");
 
   const handleControlStart = () => dragging = true;
@@ -91,24 +90,6 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
     }
   };
 
-  const stopRotation = () => {
-    setTimeout(() => {
-      controls.autoRotate = false;
-    }, 100);
-  };
-
-  const handleSliderChange = (event) => {
-    dragging = true;
-    const currentValue = parseInt(event.target.value, 10);
-    const azimuthAngle = MathUtils.degToRad(-currentValue + 180); // Convert degrees to radians
-  
-    // Set the azimuthal angle directly
-    controls.minAzimuthAngle = azimuthAngle;
-    controls.maxAzimuthAngle = azimuthAngle;
-  
-    controls.update();
-  };
-
   document.addEventListener('DOMContentLoaded', () => {
     controls.addEventListener('start', handleControlStart);
     controls.addEventListener('change', handleControlChange);
@@ -116,14 +97,12 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
   
     window.addEventListener('click', onClickZ);
 
-    rotateSlider.addEventListener("input", handleSliderChange);
     document.addEventListener('dialogOpened', () => {
       dialogOpen = true;
     });
-
-  document.addEventListener('dialogClosed', () => {
-      dialogOpen = false;
-  });
+    document.addEventListener('dialogClosed', () => {
+        dialogOpen = false;
+    });
   });
 
 }

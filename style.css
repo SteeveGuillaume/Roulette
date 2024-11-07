@@ -160,10 +160,25 @@ dialog {
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  width: 80%;
+  width: 30%;
   z-index: 100;
 }
 
 .bottom-slider {
   width: 100%;
+}
+
+/* Right Slider */
+.right-slider-container {
+  position: fixed;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  height: 30%; /* Adjusted height for better visibility */
+  z-index: 100;
+}
+
+.right-slider {
+  width: 100%; /* Full width for vertical slider */
+  height: 100%; /* Full height for vertical slider */
 }
