@@ -1,5 +1,6 @@
 import { Raycaster, Vector2, Mesh, MathUtils } from 'three';
 import { showChips, hideChips } from './chipVisibility.js';
+import { DialogHitHandlers } from './dialogHitHandlers.js';
 
 const BOX_SECTION = 18;
 const CHIP_DISTANCE_THRESHOLD = 12;
@@ -26,8 +27,7 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
   const pointer = new Vector2();
   let dragging = false;
   let dialogOpen = false;
-  
-  const displayText = document.getElementById("displayText");
+  const dialogHitHandlers = new DialogHitHandlers();
 
   const handleControlStart = () => dragging = true;
   const handleControlChange = () => {
@@ -68,7 +68,8 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
   const handleRaycastIntersections = (intersections) => {
     intersections.forEach(intersect => {
       if (isPlaneGeometry(intersect.object)) {
-        displayText.innerHTML = currentWinningNumberList[0][intersect.object.name.slice(6)].getText();
+        const text = currentWinningNumberList[0][intersect.object.name.slice(6)].getText();
+        dialogHitHandlers.showDialog(text); // Show the dialog
         checkSpecialPositions(intersect.object);
         hideOutOfRangeChips(intersect.object);
       }
