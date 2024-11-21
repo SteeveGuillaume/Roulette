@@ -11,7 +11,7 @@ import { initializeCameraSliders } from './cameraSliders.js';
 import { initializeMainPlane } from './plane.js';
 import { initializeBoxes } from './boxes.js';
 import { populatePictureBets } from './pictureBets.js';
-import { initializeDialogHandlers } from './dialogHandlers.js';
+import { initializeDialogHandlers } from './settingsDialog.js';
 
 // Utility function to display error messages to the user
 function displayError(message) {

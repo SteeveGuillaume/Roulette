@@ -1,6 +1,6 @@
 import { createChipStacks, clearChipStackList } from './chipStackManagement.js';
 import { initializeNumberList, NUMBER_LIST } from './numberList.js';
-import { sliders, getCurrentSliderValues, getCheckboxStates, getTwoPlayersState } from './dialogSliders.js';
+import { sliders, getCurrentSliderValues, getCheckboxStates, getTwoPlayersState } from './settingsValue.js';
 
 const BOX_SECTION = 18;
 const HALF_BOX_SECTION = 9;

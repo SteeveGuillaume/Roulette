@@ -1,4 +1,4 @@
-import { sliders } from './dialogSliders.js';
+import { sliders } from './settingsValue.js';
 
 export function initializeDialogHandlers() {
     const settingsDialog = document.getElementById('settingsDialog');
