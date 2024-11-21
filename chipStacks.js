@@ -1,5 +1,5 @@
 import { createChipStacks, clearChipStackList } from './chipStackManagement.js';
-import { initializeNumberList, NUMBER_LIST } from './winningNumberList.js';
+import { initializeNumberList, NUMBER_LIST } from './numberList.js';
 import { sliders, getCurrentSliderValues, getCheckboxStates } from './sliderValues.js';
 
 const BOX_SECTION = 18;
