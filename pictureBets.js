@@ -5,7 +5,7 @@ import {
     POSITION_MAP_THRD,
     pictureBetsPositionList,
     PictureBetsConfig
-} from './constantPictureBets.js';
+} from './pictureBetsConstant.js';
 
 // Your remaining code here without any changes
 
