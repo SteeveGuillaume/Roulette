@@ -200,3 +200,47 @@ button[type="submit"]:hover {
   width: 100%; /* Full width for vertical slider */
   height: 100%; /* Full height for vertical slider */
 }
+
+/* Switch Container */
+.switch-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.switch-container label {
+  margin-right: 10px;
+}
+
+.switch-container input[type="checkbox"] {
+  width: 40px;
+  height: 20px;
+  position: relative;
+  appearance: none;
+  background: #ccc;
+  outline: none;
+  border-radius: 20px;
+  transition: background 0.3s;
+  cursor: pointer;
+}
+
+.switch-container input[type="checkbox"]:checked {
+  background: #007bff;
+}
+
+.switch-container input[type="checkbox"]::before {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  top: 1px;
+  left: 1px;
+  background: white;
+  transition: transform 0.3s;
+}
+
+.switch-container input[type="checkbox"]:checked::before {
+  transform: translateX(20px);
+}

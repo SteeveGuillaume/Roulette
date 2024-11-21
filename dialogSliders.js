@@ -33,7 +33,7 @@ export function getCurrentSliderValues() {
 }
 
 export function getCheckboxStates() {
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    const checkboxes = Array.from(document.querySelectorAll('input[type="checkbox"]')).filter(checkbox => checkbox.id !== 'twoPlayersSwitch');
     const checkboxStates = {};
 
     checkboxes.forEach(checkbox => {
@@ -41,4 +41,9 @@ export function getCheckboxStates() {
     });
 
     return checkboxStates;
+}
+
+export function getTwoPlayersState() {
+    const twoPlayersSwitch = document.getElementById('twoPlayersSwitch');
+    return twoPlayersSwitch.checked;
 }

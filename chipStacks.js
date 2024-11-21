@@ -1,6 +1,6 @@
 import { createChipStacks, clearChipStackList } from './chipStackManagement.js';
 import { initializeNumberList, NUMBER_LIST } from './numberList.js';
-import { sliders, getCurrentSliderValues, getCheckboxStates } from './dialogSliders.js';
+import { sliders, getCurrentSliderValues, getCheckboxStates, getTwoPlayersState } from './dialogSliders.js';
 
 const BOX_SECTION = 18;
 const HALF_BOX_SECTION = 9;
@@ -211,7 +211,7 @@ export function initializeChipStack(scene) {
   initializeSliderValues();
   winningNumberList = initializeNumberList();
   createInitialChipStacks(winningNumberList);
-  createChipStacks(chipStackList, true, scene);
+  createChipStacks(chipStackList, getTwoPlayersState(), scene);
   return winningNumberList;
 }
 

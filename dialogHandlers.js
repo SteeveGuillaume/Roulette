@@ -3,8 +3,11 @@ import { sliders } from './dialogSliders.js';
 export function initializeDialogHandlers() {
     const settingsDialog = document.getElementById('settingsDialog');
     const settingsButton = document.getElementById('settingsButton');
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    const checkboxes = Array.from(document.querySelectorAll('input[type="checkbox"]')).filter(checkbox => checkbox.id !== 'twoPlayersSwitch');
+    const twoPlayersSwitch = document.getElementById('twoPlayersSwitch');
     const submitButton = document.getElementById('submitButton');
+
+    let twoPlayers = true;
 
     settingsButton.addEventListener('click', () => {
         settingsDialog.showModal();
@@ -62,6 +65,10 @@ export function initializeDialogHandlers() {
         });
     });
 
+    twoPlayersSwitch.addEventListener('change', (event) => {
+        twoPlayers = event.target.checked;
+    });
+
     // Add event listener for the submit button
     submitButton.addEventListener('click', (event) => {
         event.preventDefault(); // Prevent the form from submitting in the traditional way
@@ -69,7 +76,10 @@ export function initializeDialogHandlers() {
 
         // Dispatch a custom event to notify main.js
         const updateEvent = new CustomEvent('settingsSubmitted', {
-            detail: sliders
+            detail: {
+                sliders,
+                twoPlayers
+            }
         });
         document.dispatchEvent(updateEvent);
     });
