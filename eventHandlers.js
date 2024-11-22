@@ -1,6 +1,7 @@
 import { Raycaster, Vector2, Mesh, MathUtils } from 'three';
 import { showChips, hideChips } from './chipVisibility.js';
 import { DialogHitHandlers } from './dialogHitHandlers.js';
+import { getTwoPlayersState } from './settingsValue.js';
 
 const BOX_SECTION = 18;
 const CHIP_DISTANCE_THRESHOLD = 12;
@@ -26,6 +27,7 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
   const raycaster = new Raycaster();
   const pointer = new Vector2();
   let dragging = false;
+  let lastClickedObject = null;
   const dialogHitHandlers = new DialogHitHandlers();
 
   const handleControlStart = () => dragging = true;
@@ -36,7 +38,7 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
     const position = Object.entries(POSITION_MAP).find(([_, pos]) => 
       boxHit.position.x === pos.x && boxHit.position.z === pos.z
     );
-    //if (position) dialogHitHandlers.showDialog('Picture Bets', pbPositionList[`box${position[0]}`]);
+    if (position) dialogHitHandlers.showDialog('Picture Bets', pbPositionList[`box${position[0]}`]);
   };
 
   const hideOutOfRangeChips = (boxHit) => {
@@ -64,9 +66,15 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
   const handleRaycastIntersections = (intersections) => {
     intersections.forEach(intersect => {
       if (isPlaneGeometry(intersect.object)) {
-        const text = currentWinningNumberList[0][intersect.object.name.slice(6)].getText();
-        //dialogHitHandlers.showDialog('Number Details', text);
-        checkSpecialPositions(intersect.object);
+        if (lastClickedObject === intersect.object) {
+          const text = currentWinningNumberList[0][intersect.object.name.slice(6)].getText();
+          if(!getTwoPlayersState()) {
+            dialogHitHandlers.showDialog('Number Details', text);
+          }
+          checkSpecialPositions(intersect.object);
+          lastClickedObject = null;
+        }
+        lastClickedObject = intersect.object;
         hideOutOfRangeChips(intersect.object);
       }
     });
