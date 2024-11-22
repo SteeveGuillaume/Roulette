@@ -42,12 +42,19 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
   };
 
   const hideOutOfRangeChips = (boxHit) => {
+    const threshold = boxHit.name === 'number0' ? CHIP_DISTANCE_THRESHOLD_0 : CHIP_DISTANCE_THRESHOLD;
+  
     scene.traverse(node => {
-      if (node instanceof Mesh && node.geometry.type === "CylinderGeometry") {
-        const xCondition = Math.abs(node.position.x - boxHit.position.x) > CHIP_DISTANCE_THRESHOLD;
-        const zCondition = Math.abs(node.position.z - boxHit.position.z) > (boxHit.name === 'number0' ? CHIP_DISTANCE_THRESHOLD_0 : CHIP_DISTANCE_THRESHOLD);
-        
-        if (xCondition || zCondition) hideChips(node)
+      if (!(node instanceof Mesh) || node.geometry.type !== "CylinderGeometry") return;
+  
+      const xDiff = Math.abs(node.position.x - boxHit.position.x);
+      const zDiff = Math.abs(node.position.z - boxHit.position.z);
+      
+      if (
+        (xDiff > CHIP_DISTANCE_THRESHOLD || zDiff > threshold) &&
+        !(xDiff <= CHIP_DISTANCE_THRESHOLD && node.position.z === 0)
+      ) {
+        hideChips(node);
       }
     });
   };
