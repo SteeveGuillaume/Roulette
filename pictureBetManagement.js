@@ -3,16 +3,30 @@ import { createChip } from './chipCreation.js';
 let currentPictureBetsList = [];
 
 /**
+ * Vérifie si un jeton existe déjà à une position donnée.
+ * @param {number} posX - La position X du jeton.
+ * @param {number} posY - La position Y du jeton.
+ * @returns {boolean} - Retourne true si un jeton existe déjà à cette position, sinon false.
+ */
+function chipExistsAtPosition(posX, posZ) {
+  return currentPictureBetsList.some(chip => chip.position.x === posX && chip.position.z === posZ);
+}
+
+/**
  * Crée un quincunx de jetons pour les paris en image
  * @param {array} chipList - Liste des jetons
  * @param {number} posX - La position X 
  * @param {number} posY - La position Y 
  * @param {object} scene - La scène Three.js
  */
-export function createPictureBets(chipList, posX, posY, scene) {
+export function createPictureBets(chipList, posX, posZ, scene) {
   chipList.forEach(chip => {
-    let chipMesh = createChip((chip[0] * 9) + posX, 0, (chip[1] * 9) + posY, false, scene);
-    currentPictureBetsList.push(chipMesh);
+    const chipPosX = (chip[0] * 9) + posX;
+    const chipPosZ = (chip[1] * 9) + posZ;
+    if (!chipExistsAtPosition(chipPosX, -chipPosZ)) {
+      let chipMesh = createChip(chipPosX, 0, chipPosZ, false, scene);
+      currentPictureBetsList.push(chipMesh);
+    }
   });
 }
 
