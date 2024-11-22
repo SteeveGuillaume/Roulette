@@ -35,13 +35,14 @@ function createQuincunx(chipStack, initialHeight, isGrayChip, scene) {
     let currentHeight = initialHeight;
     const nbColumns = Math.floor(number / 5);
     const totalHeight = number + currentHeight;
-    let step = 3;
+    let step = 4;
     let switchColumn = false;
+    const adjustedPosX = posX - (isGrayChip ? 0 : parseFloat(step / 10) * 2);
 
     for (let i = 0; i < nbColumns; i++) {
       for (let j = 0; j < 5; j++) {
         if (j === 0) switchColumn = !switchColumn;
-        createChipAtPosition(switchColumn, posX, posZ, currentHeight, step, isGrayChip, scene);
+        createChipAtPosition(switchColumn, adjustedPosX, posZ, currentHeight, step, isGrayChip, scene);
         currentHeight++;
       }
     }
@@ -51,7 +52,7 @@ function createQuincunx(chipStack, initialHeight, isGrayChip, scene) {
     switchColumn = !switchColumn;
 
     while (currentHeight < totalHeight) {
-      createChipAtPosition(switchColumn, posX, posZ, currentHeight, step, isGrayChip, scene);
+      createChipAtPosition(switchColumn, adjustedPosX, posZ, currentHeight, step, isGrayChip, scene);
       currentHeight++;
       step -= 3; // Continuer dans la direction opposée
     }
@@ -72,9 +73,8 @@ function createQuincunx(chipStack, initialHeight, isGrayChip, scene) {
 function createChipAtPosition(switchColumn, posX, posZ, currentHeight, step, isGrayChip, scene) {
   const baseStep = parseFloat(step / 10);
   const adjustedPosX = posX + (switchColumn ? baseStep : -baseStep - 0.6);
-  const adjustedPosZ = posZ - (isGrayChip ? 0 : baseStep * 2);
   const posY = (currentHeight + 1) * DEFAULT_CHIP_ATTRIBUTE.height;
-  const chip = createChip(adjustedPosX, posY, adjustedPosZ, isGrayChip, scene);
+  const chip = createChip(adjustedPosX, posY, posZ, isGrayChip, scene);
   currentChipStackList.push(chip);
 }
 
