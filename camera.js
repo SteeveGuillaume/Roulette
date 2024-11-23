@@ -23,6 +23,29 @@ export function initializeCamera(scene, config = {}) {
   return camera;
 }
 
+export function animateCamera(camera, controls, targetX, duration) {
+  const startX = camera.position.x;
+  const startTargetX = controls.target.x;
+  const startTime = performance.now();
+
+  function animate() {
+    const currentTime = performance.now();
+    const elapsedTime = currentTime - startTime;
+    const t = Math.min(elapsedTime / duration, 1); // Normalized time [0, 1]
+
+    // Interpolate positions
+    camera.position.x = startX + (targetX - startX) * t;
+    controls.target.x = startTargetX + (targetX - startTargetX) * t;
+    controls.update();
+
+    if (t < 1) {
+      requestAnimationFrame(animate);
+    }
+  }
+
+  requestAnimationFrame(animate);
+}
+
 
 /** EXEMPLE UTILISATION
  * 

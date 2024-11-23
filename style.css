@@ -244,3 +244,79 @@ button[type="submit"]:hover {
 .switch-container input[type="checkbox"]:checked::before {
   transform: translateX(20px);
 }
+
+/* Top Switch Container */
+.top-switch-container {
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 100px;
+  height: 34px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 34px; /* Full height of the switch */
+  width: 50px; /* Half of the switch width */
+  right: 50px;
+  bottom: 0; /* Align to the bottom */
+  background-color: white;
+  transition: .4s;
+  border-radius: 34px; /* Full height of the switch */
+}
+
+input:checked + .slider {
+  background-color: #007bff;
+}
+
+input:checked + .slider:before {
+  transform: translateX(50px); /* Half of the switch width */
+}
+
+.switch-text {
+  position: absolute;
+  width: 50%;
+  text-align: center;
+  line-height: 34px;
+  font-size: 12px;
+  color: white;
+  font-weight: bold;
+}
+
+.switch-text-left {
+  left: 0;
+}
+
+.switch-text-right {
+  right: 0;
+}

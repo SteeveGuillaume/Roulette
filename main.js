@@ -2,7 +2,7 @@
 import { AxesHelper, Color, Scene } from 'three';
 import './style.css';
 import { initializeLights } from './lights.js';
-import { initializeCamera } from './camera.js';
+import { initializeCamera, animateCamera } from './camera.js';
 import { initializeRenderer } from './renderer.js';
 import { initializeChipStack } from './chipStacks.js';
 import { initializeOrbitControls } from './orbitControls.js';
@@ -152,6 +152,16 @@ document.addEventListener('DOMContentLoaded', () => {
     winningNumberList = initializeChipStack(scene); // Initialize chip stack
     updateWiningNumberList(winningNumberList);
     populatePictureBets(scene); // Populate picture bets
+  });
+
+  document.getElementById('modeSwitch').addEventListener('change', function() {
+    if (this.checked) {
+      const targetX = 117;
+      animateCamera(camera, controls, targetX, 1000);
+    } else {
+      const targetX = 27;
+      animateCamera(camera, controls, targetX, 1000);
+    }
   });
 
   // Listen for the custom event dispatched from dialogHandlers.js
