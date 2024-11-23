@@ -7,6 +7,14 @@ const HALF_BOX_SECTION = 9;
 
 let sliderValues = {};
 
+const BET_TYPES = {
+  PLEIN: 'plein',
+  CHEVAL: 'cheval',
+  TRANSVERSALE: 'transversale',
+  CARRE: 'carre',
+  SIXAIN: 'sixain'
+};
+
 /**
  * Initialise les valeurs des sliders à partir des sliders définis.
  */
@@ -89,14 +97,14 @@ function getnumberChips(type, min, max) {
  * @param {array} winningPlayerList - La liste des joueurs gagnants.
  */
 function updateWinningPlayerList(chipStackObject, winningPlayerList) {
-  const numberPlein = getnumberChips('plein', sliderValues.plein[0], sliderValues.plein[1]);
+  const numberPlein = getnumberChips(BET_TYPES.PLEIN, sliderValues[BET_TYPES.PLEIN][0], sliderValues[BET_TYPES.PLEIN][1]);
   if (chipStackObject.posX === -HALF_BOX_SECTION) {
-    winningPlayerList[0].plein += numberPlein;
+    winningPlayerList[0][BET_TYPES.PLEIN] += numberPlein;
     chipStackObject.number = numberPlein;
   } else {
     if (!Number.isInteger(chipStackObject.boxNumber)) {
       if (!Number.isInteger(chipStackObject.columnNumber)) {
-        winningPlayerList[NUMBER_LIST[chipStackObject.halfBoxBackwardZ][chipStackObject.halfBoxBackwardX]].plein += numberPlein;
+        winningPlayerList[NUMBER_LIST[chipStackObject.halfBoxBackwardZ][chipStackObject.halfBoxBackwardX]][BET_TYPES.PLEIN] += numberPlein;
         chipStackObject.number = numberPlein;
       } else {
         updateWinningListForColumn(chipStackObject, winningPlayerList);
@@ -133,9 +141,9 @@ const updateJetons = (indices, type, chipStackObject, winningPlayerList) => {
 function updateWinningListForColumn(chipStackObject, winningPlayerList) {
   if (chipStackObject.posZ === 0) {
     const transversale = NUMBER_LIST[0][chipStackObject.halfBoxBackwardX];
-    updateJetons([transversale, transversale + 1, transversale + 2], 'transversale', chipStackObject, winningPlayerList);
+    updateJetons([transversale, transversale + 1, transversale + 2], BET_TYPES.TRANSVERSALE, chipStackObject, winningPlayerList);
   } else {
-    updateJetons([NUMBER_LIST[0][chipStackObject.halfBoxBackwardX], NUMBER_LIST[1][chipStackObject.halfBoxBackwardX]], 'cheval', chipStackObject, winningPlayerList);
+    updateJetons([NUMBER_LIST[0][chipStackObject.halfBoxBackwardX], NUMBER_LIST[1][chipStackObject.halfBoxBackwardX]], BET_TYPES.CHEVAL, chipStackObject, winningPlayerList);
   }
 }
 
@@ -147,29 +155,29 @@ function updateWinningListForColumn(chipStackObject, winningPlayerList) {
 function updateWinningListForBox(chipStackObject, winningPlayerList) {
   if (chipStackObject.posX === 0) {
     if (!Number.isInteger(chipStackObject.columnNumber)) {
-      updateJetons([NUMBER_LIST[chipStackObject.halfBoxBackwardZ][0], 0], 'cheval', chipStackObject, winningPlayerList);
+      updateJetons([NUMBER_LIST[chipStackObject.halfBoxBackwardZ][0], 0], BET_TYPES.CHEVAL, chipStackObject, winningPlayerList);
     } else {
       if (chipStackObject.posZ !== 0) {
-        updateJetons([NUMBER_LIST[chipStackObject.boxBackwardZ][chipStackObject.boxNumber], NUMBER_LIST[chipStackObject.columnNumber][chipStackObject.boxNumber], 0], 'transversale', chipStackObject, winningPlayerList);
+        updateJetons([NUMBER_LIST[chipStackObject.boxBackwardZ][chipStackObject.boxNumber], NUMBER_LIST[chipStackObject.columnNumber][chipStackObject.boxNumber], 0], BET_TYPES.TRANSVERSALE, chipStackObject, winningPlayerList);
       } else {
-        updateJetons([ 0, 1, 2, 3 ], 'carre', chipStackObject, winningPlayerList);
+        updateJetons([ 0, 1, 2, 3 ], BET_TYPES.CARRE, chipStackObject, winningPlayerList);
       }
     }
   } else {
     if (!Number.isInteger(chipStackObject.columnNumber)) {
-      updateJetons([NUMBER_LIST[chipStackObject.halfBoxBackwardZ][chipStackObject.boxBackwardX], NUMBER_LIST[chipStackObject.halfBoxBackwardZ][chipStackObject.boxNumber]], 'cheval', chipStackObject, winningPlayerList);
+      updateJetons([NUMBER_LIST[chipStackObject.halfBoxBackwardZ][chipStackObject.boxBackwardX], NUMBER_LIST[chipStackObject.halfBoxBackwardZ][chipStackObject.boxNumber]], BET_TYPES.CHEVAL, chipStackObject, winningPlayerList);
     } else {
       if (chipStackObject.posZ === 0) {
         const sixainFirstLine = NUMBER_LIST[0][chipStackObject.boxBackwardX];
         const sixainIndices = Array.from({ length: 6 }, (_, i) => i + sixainFirstLine);
-        updateJetons(sixainIndices, 'sixain', chipStackObject, winningPlayerList);
+        updateJetons(sixainIndices, BET_TYPES.SIXAIN, chipStackObject, winningPlayerList);
       } else {
         updateJetons([
           NUMBER_LIST[chipStackObject.boxBackwardZ][chipStackObject.boxBackwardX], 
           NUMBER_LIST[chipStackObject.columnNumber][chipStackObject.boxBackwardX], 
           NUMBER_LIST[chipStackObject.boxBackwardZ][chipStackObject.boxNumber], 
           NUMBER_LIST[chipStackObject.columnNumber][chipStackObject.boxNumber]
-        ], 'carre', chipStackObject, winningPlayerList);
+        ], BET_TYPES.CARRE, chipStackObject, winningPlayerList);
       }
     }
   }
