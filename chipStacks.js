@@ -176,12 +176,12 @@ function updateWinningListForBox(chipStackObject, winningPlayerList) {
 }
 
 /**
- * Handles the special case where axeX is at the maximum column.
+ * Handles the case for zero where axeX is at the maximum column.
  * @param {number} axeX - The X coordinate.
  * @param {number} axeZ - The Z coordinate.
  * @returns {object} The adjusted coordinates.
  */
-function handleSpecialCase(axeX, axeZ) {
+function handleZeroCase(axeX, axeZ) {
   if (axeX === (sliderValues.nbColumn - 1) * HALF_BOX_SECTION) {
     return { axeX: -9, axeZ: 27 };
   }
@@ -196,7 +196,7 @@ function createInitialChipStacks(winningNumberList) {
   for (let index = 0; index < randMax; index++) {
     let axeX = getRandomIntInRange(0, sliderValues.nbColumn) * HALF_BOX_SECTION;
     let axeZ = getRandomIntInRange(0, 6) * HALF_BOX_SECTION;
-    ({ axeX, axeZ } = handleSpecialCase(axeX, axeZ));
+    ({ axeX, axeZ } = handleZeroCase(axeX, axeZ));
     createChipStackObject(axeX, axeZ, winningNumberList[0]);
   }
 }
