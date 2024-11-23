@@ -34,7 +34,7 @@ export function getCurrentSliderValues() {
 
 export function getCheckboxStates() {
     const settingsDialog = document.getElementById('settingsDialog');
-    const checkboxes = Array.from(settingsDialog.querySelectorAll('input[type="checkbox"]'));
+    const checkboxes = Array.from(settingsDialog.querySelectorAll('input[type="checkbox"]')).filter(checkbox => checkbox.id !== 'twoPlayersSwitch');
     const checkboxStates = {};
 
     checkboxes.forEach(checkbox => {

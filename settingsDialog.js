@@ -2,7 +2,7 @@ import { sliders } from './settingsValue.js';
 
 export function initializeDialogHandlers() {
     const settingsDialog = document.getElementById('settingsDialog');
-    const checkboxes = Array.from(settingsDialog.querySelectorAll('input[type="checkbox"]'));
+    const checkboxes = Array.from(settingsDialog.querySelectorAll('input[type="checkbox"]')).filter(checkbox => checkbox.id !== 'twoPlayersSwitch');
     const twoPlayersSwitch = document.getElementById('twoPlayersSwitch');
     const submitButton = document.getElementById('submitButton');
 
