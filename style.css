@@ -271,7 +271,7 @@ button[type="submit"]:hover {
   height: 0;
 }
 
-.slider {
+.switch-slider {
   position: absolute;
   cursor: pointer;
   top: 0;
@@ -283,23 +283,23 @@ button[type="submit"]:hover {
   border-radius: 34px;
 }
 
-.slider:before {
+.switch-slider:before {
   position: absolute;
   content: "";
   height: 34px; /* Full height of the switch */
   width: 50px; /* Half of the switch width */
-  right: 50px;
+  left:0px;
   bottom: 0; /* Align to the bottom */
   background-color: white;
   transition: .4s;
   border-radius: 34px; /* Full height of the switch */
 }
 
-input:checked + .slider {
+input:checked + .switch-slider {
   background-color: #007bff;
 }
 
-input:checked + .slider:before {
+input:checked + .switch-slider:before {
   transform: translateX(50px); /* Half of the switch width */
 }
 
