@@ -38,7 +38,15 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
     const position = Object.entries(POSITION_MAP).find(([_, pos]) => 
       boxHit.position.x === pos.x && boxHit.position.z === pos.z
     );
-    if (position) dialogHitHandlers.showDialog('Picture Bets', pbPositionList[`box${position[0]}`]);
+    if (position) {
+      const notification = document.getElementById('notification');
+      notification.innerText = `${pbPositionList[`box${position[0]}`]}`;
+      notification.style.display = 'block';
+    
+      setTimeout(() => {
+        notification.style.display = 'none';
+      }, 3000);
+    }
   };
 
   const hideOutOfRangeChips = (boxHit) => {
