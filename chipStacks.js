@@ -152,7 +152,7 @@ function updateWinningListForBox(chipStackObject, winningPlayerList) {
       if (chipStackObject.posZ !== 0) {
         updateJetons([NUMBER_LIST[chipStackObject.boxBackwardZ][chipStackObject.boxNumber], NUMBER_LIST[chipStackObject.columnNumber][chipStackObject.boxNumber], 0], 'transversale', chipStackObject, winningPlayerList);
       } else {
-        updateJetons([NUMBER_LIST[0][0], 0], 'cheval', chipStackObject, winningPlayerList);
+        updateJetons([ 0, 1, 2, 3 ], 'carre', chipStackObject, winningPlayerList);
       }
     }
   } else {
