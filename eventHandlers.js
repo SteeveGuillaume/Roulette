@@ -21,7 +21,6 @@ let currentPbPositionList = [];
 export function updateDataList(winningNumberList, pbPositionList) {
   currentWinningNumberList = [];
   currentWinningNumberList = winningNumberList;
-  console.log(pbPositionList);
   currentPbPositionList = [];
   currentPbPositionList = pbPositionList;
 }
