@@ -155,13 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.getElementById('modeSwitch').addEventListener('change', function() {
-    if (this.checked) {
-      const targetX = 117;
-      animateCamera(camera, controls, targetX, 1000);
-    } else {
-      const targetX = 27;
-      animateCamera(camera, controls, targetX, 1000);
-    }
+    animateCamera(camera, controls, this.checked, 1000);
   });
 
   // Listen for the custom event dispatched from dialogHandlers.js

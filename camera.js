@@ -1,4 +1,4 @@
-import { PerspectiveCamera } from "three";
+import { PerspectiveCamera, Vector3 } from "three";
 
 const DEFAULT_CAMERA_CONFIG = {
   fov: 75,
@@ -7,7 +7,7 @@ const DEFAULT_CAMERA_CONFIG = {
   far: 1000,
   position: {
     x: 27,
-    y: 50,
+    y: 75,
     z: 0
   }
 };
@@ -23,9 +23,19 @@ export function initializeCamera(scene, config = {}) {
   return camera;
 }
 
-export function animateCamera(camera, controls, targetX, duration) {
-  const startX = camera.position.x;
-  const startTargetX = controls.target.x;
+export function animateCamera(camera, controls, checked, duration) {
+  let targetPosition, targetLookAt;
+
+  if (checked) {
+    targetPosition = { x: 117, y: 75, z: -27 };
+    targetLookAt = { x: 117, y: 0, z: -27 };
+  } else {
+    targetPosition = { x: 27, y: 75, z: -27 };
+    targetLookAt = { x: 27, y: 0, z: -27 };
+  }
+
+  const startPosition = camera.position.clone();
+  const startLookAt = controls.target.clone();
   const startTime = performance.now();
 
   function animate() {
@@ -34,8 +44,8 @@ export function animateCamera(camera, controls, targetX, duration) {
     const t = Math.min(elapsedTime / duration, 1); // Normalized time [0, 1]
 
     // Interpolate positions
-    camera.position.x = startX + (targetX - startX) * t;
-    controls.target.x = startTargetX + (targetX - startTargetX) * t;
+    camera.position.lerpVectors(startPosition, new Vector3(targetPosition.x, targetPosition.y, targetPosition.z), t);
+    controls.target.lerpVectors(startLookAt, new Vector3(targetLookAt.x, targetLookAt.y, targetLookAt.z), t);
     controls.update();
 
     if (t < 1) {

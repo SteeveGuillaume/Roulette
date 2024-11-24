@@ -4,13 +4,11 @@ import { OrbitControls } from 'three/examples/jsm/Addons.js';
 const DEFAULT_CONFIG = {
   target: { x: 27, y: 0, z: -27 },
   mouseButtons: {
-    LEFT: MOUSE.PAN,
     MIDDLE: MOUSE.DOLLY,
     RIGHT: MOUSE.PAN
   },
   touches: {
-    TWO: TOUCH.DOLLY_PAN,
-    ONE: TOUCH.PAN
+    TWO: TOUCH.DOLLY_PAN
   }
 };
 
