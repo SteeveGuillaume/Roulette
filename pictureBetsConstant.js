@@ -38,6 +38,12 @@ export const pictureBetsPositionList = {
     "box32": 0
 };
 
+export function clearPictureBetsPositionList() {
+    Object.keys(pictureBetsPositionList).forEach(key => {
+        pictureBetsPositionList[key] = 0;
+    });
+}
+
 // Configuration for different groups
 export const PictureBetsConfig = {
     oneSide: {
