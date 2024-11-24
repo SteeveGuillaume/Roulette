@@ -6,7 +6,7 @@ import { initializeCamera, animateCamera } from './camera.js';
 import { initializeRenderer } from './renderer.js';
 import { initializeChipStack } from './chipStacks.js';
 import { initializeOrbitControls } from './orbitControls.js';
-import { initializeEventHandlers, updateWiningNumberList } from './eventHandlers.js';
+import { initializeEventHandlers, updateDataList } from './eventHandlers.js';
 import { initializeCameraSliders } from './cameraSliders.js';
 import { initializeMainPlane } from './plane.js';
 import { initializeBoxes } from './boxes.js';
@@ -150,8 +150,8 @@ refresh(); // Start the animation loop
 document.addEventListener('DOMContentLoaded', () => {
   refreshButton.addEventListener('click', () => {
     winningNumberList = initializeChipStack(scene); // Initialize chip stack
-    updateWiningNumberList(winningNumberList);
-    populatePictureBets(scene); // Populate picture bets
+    pbPositionList = populatePictureBets(scene); // Populate picture bets
+    updateDataList(winningNumberList, pbPositionList);
   });
 
   document.getElementById('modeSwitch').addEventListener('change', function() {
@@ -167,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Listen for the custom event dispatched from dialogHandlers.js
   document.addEventListener('settingsSubmitted', (event) => {
     winningNumberList = initializeChipStack(scene); // Initialize chip stack
-    updateWiningNumberList(winningNumberList);
+    updateDataList(winningNumberList);
   });
 
   document.addEventListener('touchmove', e => {

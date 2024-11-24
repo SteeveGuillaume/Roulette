@@ -16,14 +16,19 @@ const POSITION_MAP = {
 };
 
 let currentWinningNumberList = [];
+let currentPbPositionList = [];
 
-export function updateWiningNumberList(winningNumberList) {
+export function updateDataList(winningNumberList, pbPositionList) {
   currentWinningNumberList = [];
   currentWinningNumberList = winningNumberList;
+  console.log(pbPositionList);
+  currentPbPositionList = [];
+  currentPbPositionList = pbPositionList;
 }
 
 export function initializeEventHandlers(scene, camera, controls, winningNumberList, pbPositionList) {
   currentWinningNumberList = winningNumberList;
+  currentPbPositionList = pbPositionList;
   const raycaster = new Raycaster();
   const pointer = new Vector2();
   let dragging = false;
@@ -74,7 +79,9 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
     intersections.forEach(intersect => {
       if (isPlaneGeometry(intersect.object)) {
         const total = currentWinningNumberList[0][intersect.object.name.slice(6)].getAllTotal();
-        const isPictureBet = checkPictureBetsPositions(intersect.object);
+        const pictureBet = checkPictureBetsPositions(intersect.object);
+        const boxValue = pictureBet ? currentPbPositionList[`box${pictureBet[0]}`] : 0;
+        const isPictureBet = pictureBet && boxValue !== 0 && boxValue !== undefined;
         if (lastClickedObject === intersect.object) {
           if(!getTwoPlayersState() && !isPictureBet && total > 0) {
             const text = currentWinningNumberList[0][intersect.object.name.slice(6)].getText();
@@ -82,7 +89,7 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
           }
           if (isPictureBet) {
             const notification = document.getElementById('notification');
-            notification.innerText = `${pbPositionList[`box${isPictureBet[0]}`]}`;
+            notification.innerText = `${boxValue}`;
             notification.style.display = 'block';
             setTimeout(() => {
               notification.style.display = 'none';
