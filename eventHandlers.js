@@ -34,7 +34,7 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
   const handleControlChange = () => dragging = true;
   const handleControlEnd = () => dragging = false;
 
-  const checkSpecialPositions = (boxHit) => {
+  const checkPictureBetsPositions = (boxHit) => {
     const position = Object.entries(POSITION_MAP).find(([_, pos]) => 
       boxHit.position.x === pos.x && boxHit.position.z === pos.z
     );
@@ -47,6 +47,7 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
         notification.style.display = 'none';
       }, 3000);
     }
+    return position;
   };
 
   const hideOutOfRangeChips = (boxHit) => {
@@ -83,10 +84,11 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
       if (isPlaneGeometry(intersect.object)) {
         if (lastClickedObject === intersect.object) {
           const text = currentWinningNumberList[0][intersect.object.name.slice(6)].getText();
-          if(!getTwoPlayersState()) {
+          const total = currentWinningNumberList[0][intersect.object.name.slice(6)].getAllTotal();
+          const isPictureBet = checkPictureBetsPositions(intersect.object);
+          if(!getTwoPlayersState() && !isPictureBet && total > 0) {
             dialogHitHandlers.showDialog('Number Details', text);
           }
-          checkSpecialPositions(intersect.object);
           lastClickedObject = null;
         }
         lastClickedObject = intersect.object;
