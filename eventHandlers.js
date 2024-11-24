@@ -38,15 +38,6 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
     const position = Object.entries(POSITION_MAP).find(([_, pos]) => 
       boxHit.position.x === pos.x && boxHit.position.z === pos.z
     );
-    if (position) {
-      const notification = document.getElementById('notification');
-      notification.innerText = `${pbPositionList[`box${position[0]}`]}`;
-      notification.style.display = 'block';
-    
-      setTimeout(() => {
-        notification.style.display = 'none';
-      }, 3000);
-    }
     return position;
   };
 
@@ -82,17 +73,25 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
   const handleRaycastIntersections = (intersections) => {
     intersections.forEach(intersect => {
       if (isPlaneGeometry(intersect.object)) {
+        const total = currentWinningNumberList[0][intersect.object.name.slice(6)].getAllTotal();
+        const isPictureBet = checkPictureBetsPositions(intersect.object);
         if (lastClickedObject === intersect.object) {
-          const text = currentWinningNumberList[0][intersect.object.name.slice(6)].getText();
-          const total = currentWinningNumberList[0][intersect.object.name.slice(6)].getAllTotal();
-          const isPictureBet = checkPictureBetsPositions(intersect.object);
           if(!getTwoPlayersState() && !isPictureBet && total > 0) {
+            const text = currentWinningNumberList[0][intersect.object.name.slice(6)].getText();
             dialogHitHandlers.showDialog('Number Details', text);
+          }
+          if (isPictureBet) {
+            const notification = document.getElementById('notification');
+            notification.innerText = `${pbPositionList[`box${isPictureBet[0]}`]}`;
+            notification.style.display = 'block';
+            setTimeout(() => {
+              notification.style.display = 'none';
+            }, 3000);
           }
           lastClickedObject = null;
         }
         lastClickedObject = intersect.object;
-        hideOutOfRangeChips(intersect.object);
+        if (total > 0  || isPictureBet) hideOutOfRangeChips(intersect.object);
       }
     });
   };
