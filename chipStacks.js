@@ -200,7 +200,7 @@ function handleZeroCase(axeX, axeZ) {
  * Crée les piles de jetons initiales.
  */
 function createInitialChipStacks(winningNumberList) {
-  const randMax = getRandomIntInRange(0, sliderValues.max);
+  const randMax = getRandomIntInRange(1, sliderValues.max);
   for (let index = 0; index < randMax; index++) {
     let axeX = getRandomIntInRange(0, sliderValues.nbColumn) * HALF_BOX_SECTION;
     let axeZ = getRandomIntInRange(0, 6) * HALF_BOX_SECTION;

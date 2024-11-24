@@ -1,6 +1,6 @@
 export const sliders = [
-    { id: 'maxSlider', max: 200, step: 5, start: 25, maxSpan: 'maxValueMax' },
-    { id: 'nbColumnSlider', max: 9, step: 1, start: 9, maxSpan: 'nbColumnValueMax' },
+    { id: 'maxSlider', min: 1, max: 50, step: 1, start: 15, maxSpan: 'maxValueMax' },
+    { id: 'nbColumnSlider', min: 2, max: 9, step: 1, start: 9, maxSpan: 'nbColumnValueMax' },
     { id: 'pleinSlider', min: 5, max: 20, step: 5, start: [5, 15], minSpan: 'pleinValueMin', maxSpan: 'pleinValueMax' },
     { id: 'chevalSlider', min: 5, max: 40, step: 5, start: [5, 25], minSpan: 'chevalValueMin', maxSpan: 'chevalValueMax' },
     { id: 'transversaleSlider', min: 5, max: 60, step: 5, start: [5, 30], minSpan: 'transversaleValueMin', maxSpan: 'transversaleValueMax' },
