@@ -89,7 +89,7 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
           }
           if (isPictureBet) {
             const notification = document.getElementById('notification');
-            notification.innerText = `${boxValue}`;
+            notification.innerText = `${boxValue.replace(/[^\d]/g, '')}`;
             notification.style.display = 'block';
             setTimeout(() => {
               notification.style.display = 'none';
