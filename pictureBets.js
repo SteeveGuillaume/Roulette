@@ -91,6 +91,7 @@ function handleCenterPositions(whichCenter, leftOrRight, box2, box5, box6, box8)
         if (box2.length === 0) {
             const whichRight = Math.random() < 0.5;
             box2.push(...PictureBetsConfig.twoSide.center[whichRight ? "32" : "67"]);
+            currentPbPositionList.box17 = whichRight ? "32" : "67";
         }
         const whichLeft = Math.random() < 0.5;
         box6.push(...PictureBetsConfig.twoSide.down[whichLeft ? side59List[0] : side59List[1]]);
