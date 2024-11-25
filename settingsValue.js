@@ -48,3 +48,14 @@ export function getTwoPlayersState() {
     const twoPlayersSwitch = document.getElementById('twoPlayersSwitch');
     return twoPlayersSwitch.checked;
 }
+
+export function initializeSliderValues(sliderValues) {
+    const currentSliderValues = getCurrentSliderValues();
+    sliderValues = sliders.reduce((acc, slider) => {
+      const { id } = slider;
+      const key = id.replace('Slider', '');
+      acc[key] = currentSliderValues[id];
+      return acc;
+    }, {});
+    return sliderValues;
+  }
