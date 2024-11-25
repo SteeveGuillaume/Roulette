@@ -161,7 +161,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Listen for the custom event dispatched from dialogHandlers.js
   document.addEventListener('settingsSubmitted', (event) => {
     winningNumberList = initializeChipStack(scene); // Initialize chip stack
-    updateDataList(winningNumberList);
+    pbPositionList = populatePictureBets(scene); // Populate picture bets
+    updateDataList(winningNumberList, pbPositionList);
   });
 
   document.addEventListener('touchmove', e => {
