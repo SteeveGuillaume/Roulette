@@ -82,8 +82,13 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
         const boxValue = pictureBet ? currentPbPositionList[`box${pictureBet[0]}`] : 0;
         const isPictureBet = pictureBet && boxValue !== 0 && boxValue !== undefined;
         if (lastClickedObject === intersect.object) {
-          if(!getTwoPlayersState() && !isPictureBet && total > 0) {
-            const text = currentWinningNumberList[0][intersect.object.name.slice(6)].getText();
+          if(!isPictureBet && total > 0) {
+            const objectName = intersect.object.name.slice(6);
+            let text = currentWinningNumberList[0][objectName].getText();
+            if(getTwoPlayersState()) {
+              const text2 = currentWinningNumberList[1][objectName].getText();
+              text =  `Joueur 1 : <br> ${text} <br> Joueur 2 : <br> ${text2}`;
+            }
             dialogHitHandlers.showDialog('Number Details', text);
           }
           if (isPictureBet) {

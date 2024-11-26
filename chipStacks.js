@@ -33,7 +33,7 @@ let winningNumberList = [];
  * @param {number} axeZ - La coordonnée Z.
  * @param {array} winningPlayerList - La liste des joueurs gagnants.
  */
-function createChipStackObject(axeX, axeZ, winningPlayerList) {
+function createChipStackObject(axeX, axeZ) {
   const chipStackObject = { 
     ...chipStackTemplate, 
     name: `${axeX}-${axeZ}`, 
@@ -48,7 +48,6 @@ function createChipStackObject(axeX, axeZ, winningPlayerList) {
   };
   
   if (!chipStackList.find(({ name }) => name === chipStackObject.name)) {
-    updateWinningPlayerList(chipStackObject, winningPlayerList);
     chipStackList.push(chipStackObject);
   }
 }
@@ -88,15 +87,15 @@ function handleZeroCase(axeX, axeZ) {
 /**
  * Crée les piles de jetons initiales.
  */
-function createInitialChipStacks() {
-  winningNumberList = initializeNumberList();
+function createInitialChipStacks(scene) {
   const randMax = getRandomIntInRange(1, sliderValues.max);
   for (let index = 0; index < randMax; index++) {
     let axeX = getRandomIntInRange(0, sliderValues.nbColumn) * HALF_BOX_SECTION;
     let axeZ = getRandomIntInRange(0, 6) * HALF_BOX_SECTION;
     ({ axeX, axeZ } = handleZeroCase(axeX, axeZ));
-    createChipStackObject(axeX, axeZ, winningNumberList[0]);
+    createChipStackObject(axeX, axeZ);
   }
+  createChipStacks(chipStackList, scene);
 }
 
 /**
@@ -106,6 +105,7 @@ function createInitialChipStacks() {
  * @param {object} scene - La scène Three.js
  */
 function createChipStacks(chipStackList, scene) {
+  winningNumberList = initializeNumberList();
   chipStackList.forEach(chipStack => {
     if (getTwoPlayersState()) {
       const oldChipStack = { ...chipStack };
@@ -113,9 +113,12 @@ function createChipStacks(chipStackList, scene) {
       const maxInt = Math.max(chipStack.number - randomInt, randomInt);
       chipStack.number = maxInt;
       oldChipStack.number -= maxInt;
+      updateWinningPlayerList(chipStack, winningNumberList[0]);
+      updateWinningPlayerList(oldChipStack, winningNumberList[1]);
       const finalHeight = createQuincunx(chipStack, 0, false, scene);
       createQuincunx(oldChipStack, finalHeight, true, scene);
     } else {
+      updateWinningPlayerList(chipStack, winningNumberList[0]);
       createQuincunx(chipStack, 0, false, scene);
     }
   });
@@ -129,8 +132,7 @@ function createChipStacks(chipStackList, scene) {
 export function initializeChipStack(scene) {
   clearChipStack(scene);
   sliderValues = initializeSliderValues();
-  createInitialChipStacks();
-  createChipStacks(chipStackList, scene);
+  createInitialChipStacks(scene);
   return winningNumberList;
 }
 
