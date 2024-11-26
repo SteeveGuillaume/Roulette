@@ -87,9 +87,9 @@ export function initializeEventHandlers(scene, camera, controls, winningNumberLi
             let text = currentWinningNumberList[0][objectName].getText();
             if(getTwoPlayersState()) {
               const text2 = currentWinningNumberList[1][objectName].getText();
-              text =  `Joueur 1 : <br> ${text} <br> Joueur 2 : <br> ${text2}`;
+              text =  `Joueur 1 : ${text} <br> Joueur 2 :  ${text2}`;
             }
-            dialogHitHandlers.showDialog('Number Details', text);
+            dialogHitHandlers.showDialog(`Numéro ${currentWinningNumberList[0][objectName].number}`, text);
           }
           if (isPictureBet) {
             const notification = document.getElementById('notification');

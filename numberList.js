@@ -30,7 +30,8 @@ function createWinningNumber(number) {
         return this.getTotalPlein() + this.getTotalCheval() + this.getTotalCarre() + this.getTotalTransversale() + this.getTotalSixain();
       },
       getText() {
-        return `Au numéro ${this.number}, le total est de ${this.getAllTotal()} - Plein: ${this.getTotalPlein()}, Cheval: ${this.getTotalCheval()}, Carré: ${this.getTotalCarre()}, Transversale: ${this.getTotalTransversale()}, Sixain: ${this.getTotalSixain()}`;
+        return `Total : ${this.getAllTotal()} <br> Plein: ${this.getTotalPlein()} | Cheval: ${this.getTotalCheval()} | Carré: ${this.getTotalCarre()} 
+        <br> Transversale: ${this.getTotalTransversale()} | Sixain: ${this.getTotalSixain()}`;
       }
     };
   }
