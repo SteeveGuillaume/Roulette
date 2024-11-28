@@ -1,4 +1,4 @@
-import { createPictureBets, clearPictureBets } from './pictureBetManagement.js';
+import { createPictureBets, createSpecialPictureBets, clearPictureBets } from './pictureBetManagement.js';
 import {
     POSITION_MAP_FRST,
     POSITION_MAP_SCND,
@@ -11,6 +11,12 @@ import {
 let currentPbPositionList = [];
 
 function populatePictureBetsByGroup(group, scene, positionMap) {
+    if(positionMap === POSITION_MAP_FRST) {
+        if(Math.random() < 0.3){
+            createSpecialPictureBets(scene);
+            currentPbPositionList.box0 = '116';
+        }
+    }
     if (group === 'oneSide') {
         return populate1SidePictureBets(scene, positionMap);
     } else if (group === 'twoSide') {
@@ -116,23 +122,34 @@ function populate3SidePictureBets(scene, positionMap) {
     const leftOrRight = Math.random() < 0.5;
     const upOrDown = Math.random() < 0.5;
 
-    if (whichCenter) {
-        currentPbPositionList.box17 = leftOrRight ? "100" : "66";
-        currentPbPositionList.box20 = "135";
-        currentPbPositionList.box23 = leftOrRight ? "66" : "100";
+    if(Math.random() < 0.3){
+        currentPbPositionList.box17 = "156";
+        const possibleValues = ['33', '100', '66', '102'];
+        shuffleArray(possibleValues);
+        createPictureBets(PictureBetsConfig.threeSide["135"], positionMap.box2.startX, positionMap.box2.startY, scene);
+        createPictureBets(PictureBetsConfig.threeSide["156"], positionMap.box2.startX, 0, scene);
+        createPictureBets(PictureBetsConfig.threeSide[possibleValues[0]], positionMap.box8.startX, positionMap.box8.startY, scene);
+        currentPbPositionList.box19 = "156";
+        currentPbPositionList.box23 = possibleValues[0];
     } else {
-        currentPbPositionList.box17 = leftOrRight ? "135" : "66";
-        currentPbPositionList.box20 = "100";
-        currentPbPositionList.box23 = leftOrRight ? "66" : "135";
+        if (whichCenter) {
+            currentPbPositionList.box17 = leftOrRight ? "100" : "66";
+            currentPbPositionList.box20 = "135";
+            currentPbPositionList.box23 = leftOrRight ? "66" : "100";
+        } else {
+            currentPbPositionList.box17 = leftOrRight ? "135" : "66";
+            currentPbPositionList.box20 = "100";
+            currentPbPositionList.box23 = leftOrRight ? "66" : "135";
+        }
+    
+        currentPbPositionList.box19 = upOrDown ? "102Down" : "33";
+        currentPbPositionList.box21 = upOrDown ? "33" : "102";
+
+        createPictureBets(PictureBetsConfig.threeSide[currentPbPositionList.box20], positionMap.box5.startX, positionMap.box5.startY, scene);
+        createPictureBets(PictureBetsConfig.threeSide[currentPbPositionList.box17], positionMap.box2.startX, positionMap.box2.startY, scene);
+        createPictureBets(PictureBetsConfig.threeSide[currentPbPositionList.box23], positionMap.box8.startX, positionMap.box8.startY, scene);
+        createPictureBets(upOrDown ? PictureBetsConfig.threeSide[currentPbPositionList.box19] : PictureBetsConfig.threeSide[currentPbPositionList.box21], positionMap[upOrDown ? 'box4' : 'box6'].startX, positionMap[upOrDown ? 'box4' : 'box6'].startY, scene);
     }
-
-    currentPbPositionList.box19 = upOrDown ? "102Down" : "33";
-    currentPbPositionList.box21 = upOrDown ? "33" : "102";
-
-    createPictureBets(PictureBetsConfig.threeSide[currentPbPositionList.box20], positionMap.box5.startX, positionMap.box5.startY, scene);
-    createPictureBets(PictureBetsConfig.threeSide[currentPbPositionList.box17], positionMap.box2.startX, positionMap.box2.startY, scene);
-    createPictureBets(PictureBetsConfig.threeSide[currentPbPositionList.box23], positionMap.box8.startX, positionMap.box8.startY, scene);
-    createPictureBets(upOrDown ? PictureBetsConfig.threeSide[currentPbPositionList.box19] : PictureBetsConfig.threeSide[currentPbPositionList.box21], positionMap[upOrDown ? 'box4' : 'box6'].startX, positionMap[upOrDown ? 'box4' : 'box6'].startY, scene);
 
     return currentPbPositionList;
 }
