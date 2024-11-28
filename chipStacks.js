@@ -105,7 +105,6 @@ function createInitialChipStacks(scene) {
  * @param {object} scene - La scène Three.js
  */
 function createChipStacks(chipStackList, scene) {
-  winningNumberList = initializeNumberList();
   chipStackList.forEach(chipStack => {
     if (getTwoPlayersState()) {
       const oldChipStack = { ...chipStack };
@@ -132,6 +131,7 @@ function createChipStacks(chipStackList, scene) {
 export function initializeChipStack(scene) {
   clearChipStack(scene);
   sliderValues = initializeSliderValues();
+  winningNumberList = initializeNumberList();
   createInitialChipStacks(scene);
   return winningNumberList;
 }
