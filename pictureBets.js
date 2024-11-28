@@ -3,14 +3,14 @@ import {
     POSITION_MAP_FRST,
     POSITION_MAP_SCND,
     POSITION_MAP_THRD,
-    pictureBetsPositionList,
     PictureBetsConfig,
-    clearPictureBetsPositionList
+    MapBoxKeys
 } from './pictureBetsConstant.js';
 
 let currentPbPositionList = [];
 
 function populatePictureBetsByGroup(group, scene, positionMap) {
+    const boxMap = MapBoxKeys(positionMap);
     if(positionMap === POSITION_MAP_FRST) {
         if(Math.random() < 0.3){
             createSpecialPictureBets(scene);
@@ -18,17 +18,17 @@ function populatePictureBetsByGroup(group, scene, positionMap) {
         }
     }
     if (group === 'oneSide') {
-        return populate1SidePictureBets(scene, positionMap);
+        return populate1SidePictureBets(scene, positionMap, boxMap);
     } else if (group === 'twoSide') {
-        return populate2SidePictureBets(scene, positionMap);
+        return populate2SidePictureBets(scene, positionMap, boxMap);
     } else if (group === 'threeSide') {
-        return populate3SidePictureBets(scene, positionMap);
+        return populate3SidePictureBets(scene, positionMap, boxMap);
     }
 }
 
-function populate1SidePictureBets(scene, positionMap) {
+function populate1SidePictureBets(scene, positionMap, boxMap) {
     const whichCenter = Math.random() < 0.5 ? '103' : '68';
-    currentPbPositionList.box20 = whichCenter;
+    currentPbPositionList[boxMap.box5] = whichCenter;
 
     const possibleValues = ['52', '69', '86', '34', '51'];
     shuffleArray(possibleValues);
@@ -39,15 +39,15 @@ function populate1SidePictureBets(scene, positionMap) {
     createPictureBets(PictureBetsConfig.oneSide.right[possibleValues[2]], positionMap.box2.startX, positionMap.box2.startY, scene);
     createPictureBets(PictureBetsConfig.oneSide.down[possibleValues[3]], positionMap.box6.startX, positionMap.box6.startY, scene);
 
-    currentPbPositionList.box19 = possibleValues[0];
-    currentPbPositionList.box23 = possibleValues[1];
-    currentPbPositionList.box17 = possibleValues[2];
-    currentPbPositionList.box21 = possibleValues[3];
+    currentPbPositionList[boxMap.box4] = possibleValues[0];
+    currentPbPositionList[boxMap.box8] = possibleValues[1];
+    currentPbPositionList[boxMap.box2] = possibleValues[2];
+    currentPbPositionList[boxMap.box6] = possibleValues[3];
 
     return currentPbPositionList;
 }
 
-function populate2SidePictureBets(scene, positionMap) {
+function populate2SidePictureBets(scene, positionMap, boxMap) {
     let box2 = [];
     let box4 = [];
     let box5 = [];
@@ -58,8 +58,8 @@ function populate2SidePictureBets(scene, positionMap) {
     const whichCenter = Math.floor(Math.random() * 3);
     const leftOrRight = Math.random() < 0.5;
 
-    handle51Positions(whichSideFor51, whichCenter, box2, box4, box6, box8);
-    handleCenterPositions(whichCenter, leftOrRight, box2, box5, box6, box8);
+    handle51Positions(whichSideFor51, whichCenter, box2, box4, box6, box8, boxMap);
+    handleCenterPositions(whichCenter, leftOrRight, box2, box5, box6, box8, boxMap);   
     
     createPictureBets(box2, positionMap.box2.startX, positionMap.box2.startY, scene);
     createPictureBets(box4, positionMap.box4.startX, positionMap.box4.startY, scene);
@@ -70,85 +70,84 @@ function populate2SidePictureBets(scene, positionMap) {
     return currentPbPositionList;
 }
 
-function handle51Positions(whichSideFor51, whichCenter, box2, box5, box6, box8) {
+function handle51Positions(whichSideFor51, whichCenter, box2, box5, box6, box8, boxMap) {
     const side51List = ["up", "down", "left", "right"];
     if (whichSideFor51 === 0) {
         box5.push(...PictureBetsConfig.twoSide["51"].up);
-        currentPbPositionList.box19 = "51";
+        currentPbPositionList[boxMap.box4] = "51";
     } else if (whichSideFor51 === 1 && whichCenter !== 0) {
         box8.push(...PictureBetsConfig.twoSide["51"].left);
-        currentPbPositionList.box23 = "51";
+        currentPbPositionList[boxMap.box8] = "51";
     } else if (whichSideFor51 === 2) {
         box2.push(...PictureBetsConfig.twoSide["51"].right);
-        currentPbPositionList.box17 = "51";
+        currentPbPositionList[boxMap.box2] = "51";
     } else if (whichSideFor51 === 3 && whichCenter !== 0) {
         box6.push(...PictureBetsConfig.twoSide["51"].down);
-        currentPbPositionList.box21 = "51";
+        currentPbPositionList[boxMap.box6] = "51";
     }
 }
 
-function handleCenterPositions(whichCenter, leftOrRight, box2, box5, box6, box8) {
+function handleCenterPositions(whichCenter, leftOrRight, box2, box5, box6, box8, boxMap) {
     const centerList = ["59", "32", "67"];
     const side59List = ["43", "25"];
     const center = centerList[whichCenter];
-    currentPbPositionList.box20 = center;
+    currentPbPositionList[boxMap.box5] = center;
     if (whichCenter === 0) {
         box5.push(...PictureBetsConfig.twoSide.center[center]);
         if (box2.length === 0) {
             const whichRight = Math.random() < 0.5;
             box2.push(...PictureBetsConfig.twoSide.center[whichRight ? "32" : "67"]);
-            currentPbPositionList.box17 = whichRight ? "32" : "67";
+            currentPbPositionList[boxMap.box2] = whichRight ? "32" : "67";
         }
         const whichLeft = Math.random() < 0.5;
         box6.push(...PictureBetsConfig.twoSide.down[whichLeft ? side59List[0] : side59List[1]]);
-        currentPbPositionList.box21 = whichLeft ? side59List[0] : side59List[1];
+        currentPbPositionList[boxMap.box6] = whichLeft ? side59List[0] : side59List[1];
         box8.push(...PictureBetsConfig.twoSide.left[whichLeft ? side59List[1] : side59List[0]]);
-        currentPbPositionList.box23 = whichLeft ? side59List[1] : side59List[0];
+        currentPbPositionList[boxMap.box8] = whichLeft ? side59List[1] : side59List[0];
     } else {
         box5.push(...PictureBetsConfig.twoSide.center[center]);
         if (box2.length === 0) {
             box2.push(...PictureBetsConfig.twoSide.center[leftOrRight ? "59Rt" : (whichCenter === 1 ? "67" : "32")]);
-            currentPbPositionList.box17 = leftOrRight ? "59" : (whichCenter === 1 ? "67" : "32");
+            currentPbPositionList[boxMap.box2] = leftOrRight ? "59" : (whichCenter === 1 ? "67" : "32");
         }
         if (box8.length === 0) {
             box8.push(...PictureBetsConfig.twoSide.center[leftOrRight ? (whichCenter === 1 ? "67" : "32") : "59"]);
-            currentPbPositionList.box23 = leftOrRight ? (whichCenter === 1 ? "67" : "32") : "59";
+            currentPbPositionList[boxMap.box8] = leftOrRight ? (whichCenter === 1 ? "67" : "32") : "59";
         }
     }
 }
 
-function populate3SidePictureBets(scene, positionMap) {
+function populate3SidePictureBets(scene, positionMap, boxMap) {
     const whichCenter = Math.random() < 0.5;
     const leftOrRight = Math.random() < 0.5;
     const upOrDown = Math.random() < 0.5;
 
     if(Math.random() < 0.3){
-        currentPbPositionList.box17 = "156";
+        currentPbPositionList[boxMap.box2] = "156";
         const possibleValues = ['33', '100', '66', '102'];
         shuffleArray(possibleValues);
         createPictureBets(PictureBetsConfig.threeSide["135"], positionMap.box2.startX, positionMap.box2.startY, scene);
         createPictureBets(PictureBetsConfig.threeSide["156"], positionMap.box2.startX, 0, scene);
         createPictureBets(PictureBetsConfig.threeSide[possibleValues[0]], positionMap.box8.startX, positionMap.box8.startY, scene);
-        currentPbPositionList.box19 = "156";
-        currentPbPositionList.box23 = possibleValues[0];
+        currentPbPositionList[boxMap.box4] = "156";
+        currentPbPositionList[boxMap.box8] = possibleValues[0];
     } else {
-        if (whichCenter) {
-            currentPbPositionList.box17 = leftOrRight ? "100" : "66";
-            currentPbPositionList.box20 = "135";
-            currentPbPositionList.box23 = leftOrRight ? "66" : "100";
-        } else {
-            currentPbPositionList.box17 = leftOrRight ? "135" : "66";
-            currentPbPositionList.box20 = "100";
-            currentPbPositionList.box23 = leftOrRight ? "66" : "135";
-        }
-    
-        currentPbPositionList.box19 = upOrDown ? "102Down" : "33";
-        currentPbPositionList.box21 = upOrDown ? "33" : "102";
+        const center = whichCenter ? "135" : "100";
+        const left = leftOrRight ? "100" : "66";
+        const right = leftOrRight ? "66" : "100";
+        const up = upOrDown ? "102Down" : "33";
+        const down = upOrDown ? "33" : "102";
 
-        createPictureBets(PictureBetsConfig.threeSide[currentPbPositionList.box20], positionMap.box5.startX, positionMap.box5.startY, scene);
-        createPictureBets(PictureBetsConfig.threeSide[currentPbPositionList.box17], positionMap.box2.startX, positionMap.box2.startY, scene);
-        createPictureBets(PictureBetsConfig.threeSide[currentPbPositionList.box23], positionMap.box8.startX, positionMap.box8.startY, scene);
-        createPictureBets(upOrDown ? PictureBetsConfig.threeSide[currentPbPositionList.box19] : PictureBetsConfig.threeSide[currentPbPositionList.box21], positionMap[upOrDown ? 'box4' : 'box6'].startX, positionMap[upOrDown ? 'box4' : 'box6'].startY, scene);
+        currentPbPositionList[boxMap.box2] = left;
+        currentPbPositionList[boxMap.box5] = center;
+        currentPbPositionList[boxMap.box8] = right;
+        currentPbPositionList[boxMap.box4] = up;
+        currentPbPositionList[boxMap.box6] = down;
+
+        createPictureBets(PictureBetsConfig.threeSide[center], positionMap.box5.startX, positionMap.box5.startY, scene);
+        createPictureBets(PictureBetsConfig.threeSide[left], positionMap.box2.startX, positionMap.box2.startY, scene);
+        createPictureBets(PictureBetsConfig.threeSide[right], positionMap.box8.startX, positionMap.box8.startY, scene);
+        createPictureBets(PictureBetsConfig.threeSide[upOrDown ? up : down], positionMap[upOrDown ? 'box4' : 'box6'].startX, positionMap[upOrDown ? 'box4' : 'box6'].startY, scene);
     }
 
     return currentPbPositionList;

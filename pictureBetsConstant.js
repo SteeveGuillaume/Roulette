@@ -17,31 +17,28 @@ export const POSITION_MAP_FRST = generatePositionMap(POSITION_COLUMNS.FIRST);
 export const POSITION_MAP_SCND = generatePositionMap(POSITION_COLUMNS.SECOND);
 export const POSITION_MAP_THRD = generatePositionMap(POSITION_COLUMNS.THIRD);
 
-export const pictureBetsPositionList = {
-    //Première colonne
-    "box5": 0,
-    "box7": 0,
-    "box8": 0,
-    "box9": 0,
-    "box11": 0,
-    //Deuxième colonne
-    "box17": 0,
-    "box19": 0,
-    "box20": 0,
-    "box21": 0,
-    "box23": 0,
-    //Troisième colonne
-    "box26": 0,
-    "box28": 0,
-    "box29": 0,
-    "box30": 0,
-    "box32": 0
-};
-
-export function clearPictureBetsPositionList() {
-    Object.keys(pictureBetsPositionList).forEach(key => {
-        pictureBetsPositionList[key] = 0;
-    });
+export function MapBoxKeys(positionMap) {
+    const map = {};
+    if (positionMap === POSITION_MAP_FRST) {
+        map.box2 = 'box2';
+        map.box4 = 'box4';
+        map.box5 = 'box5';
+        map.box6 = 'box6';
+        map.box8 = 'box8';
+    } else if (positionMap === POSITION_MAP_SCND) {
+        map.box2 = 'box17';
+        map.box4 = 'box19';
+        map.box5 = 'box20';
+        map.box6 = 'box21';
+        map.box8 = 'box23';
+    } else if (positionMap === POSITION_MAP_THRD) {
+        map.box2 = 'box29';
+        map.box4 = 'box31';
+        map.box5 = 'box32';
+        map.box6 = 'box33';
+        map.box8 = 'box35';
+    }
+    return map;
 }
 
 // Configuration for different groups
