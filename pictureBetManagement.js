@@ -13,7 +13,7 @@ function chipExistsAtPosition(posX, posZ) {
 }
 
 /**
- * Crée un quincunx de jetons pour les paris en image
+ * Crée un les jetons des figures à une position donnée
  * @param {array} chipList - Liste des jetons
  * @param {number} posX - La position X 
  * @param {number} posY - La position Y 
@@ -28,6 +28,19 @@ export function createPictureBets(chipList, posX, posZ, scene) {
       currentPictureBetsList.push(chipMesh);
     }
   });
+}
+
+/**
+ * Crée un les jetons de la figure du zéro
+ * @param {object} scene - La scène Three.js
+ */
+export function createSpecialPictureBets(scene) {
+  let chipMesh = createChip(-9, 0, 27, false, scene);
+  currentPictureBetsList.push(chipMesh);
+  for (let i = 0; i < 6; i++) {
+    chipMesh = createChip(0, 0, i * 9, false, scene);
+    currentPictureBetsList.push(chipMesh);
+  }
 }
 
 /**
