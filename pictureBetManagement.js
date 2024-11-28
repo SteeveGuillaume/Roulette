@@ -24,7 +24,7 @@ export function createPictureBets(chipList, posX, posZ, scene) {
     const chipPosX = (chip[0] * 9) + posX;
     const chipPosZ = (chip[1] * 9) + posZ;
     if (!chipExistsAtPosition(chipPosX, -chipPosZ)) {
-      let chipMesh = createChip(chipPosX, 0, chipPosZ, false, scene);
+      let chipMesh = createChip(chipPosX, 0, chipPosZ, true, scene);
       currentPictureBetsList.push(chipMesh);
     }
   });
@@ -35,10 +35,10 @@ export function createPictureBets(chipList, posX, posZ, scene) {
  * @param {object} scene - La scène Three.js
  */
 export function createSpecialPictureBets(scene) {
-  let chipMesh = createChip(-9, 0, 27, false, scene);
+  let chipMesh = createChip(-9, 0, 27, true, scene);
   currentPictureBetsList.push(chipMesh);
   for (let i = 0; i < 6; i++) {
-    chipMesh = createChip(0, 0, i * 9, false, scene);
+    chipMesh = createChip(0, 0, i * 9, true, scene);
     currentPictureBetsList.push(chipMesh);
   }
 }
